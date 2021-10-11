@@ -8,13 +8,14 @@
  */
 const config = {
   /* TODO: ADD YOUR FIREBASE CONFIGURATION OBJECT HERE */
-  apiKey: "AIzaSyDJc73DKi_4z8TJHPlcMcnXweyEFrC8g8c",
-  authDomain: "natulog-official.firebaseapp.com",
-  projectId: "natulog-official",
-  storageBucket: "natulog-official.appspot.com",
-  messagingSenderId: "254503184303",
-  appId: "1:254503184303:web:f5e94f480dba2d8e1b715a",
-  measurementId: "G-YB06B4WL7E"
+  apiKey: "AIzaSyBu0V1SixoB9sHymU08uFD8BphvQTxgUBk",
+  authDomain: "natulog-test.firebaseapp.com",
+  databaseURL: "https://natulog-test-default-rtdb.firebaseio.com",
+  projectId: "natulog-test",
+  storageBucket: "natulog-test.appspot.com",
+  messagingSenderId: "442256927909",
+  appId: "1:442256927909:web:510acdb577610220deb14c",
+  measurementId: "G-4390E4L5R0"
 };
 
 export function getFirebaseConfig() {
