@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>チーム転生</title>
+    <!-- BootstrapのCSS読み込み -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Style.css読み込み -->
+    <link rel="stylesheet" href="./css/style.css">
+  
+    <!-- jQuery読み込み -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <!-- BootstrapのJS読み込み -->
+    <script src="js/bootstrap.min.js"></script>
+  </head>
+  <body>
+    <div class="container">
+      <div class="row justify-content-between align-items-center" id="header">
+        <div class="col-2">
+          <a href="javascript:history.back()" class="text-decoration-none"><img class="mx-auto d-block" id="return" src="./images/return.svg" style="width: 95px;"></a>
+        </div>
+        <div class="col-8">
+          <img class="mx-auto d-block" id="logo" src="./images/logo.png" style="width: 250px;">
+        </div>
+        <div class="col-2">
+          <a href="./setting.html" class="text-decoration-none"><img class="mx-auto d-block" id="setting" src="./images/setting.png" style="width: 70px;"></a>
+        </div>
+      </div>
+      <div class="contents">
+        <div class="main">
+          <form class="row justify-content-center">
+            <h1>転生するキャラクターを選択。</h1>
+            <div class="col-2">
+              <div class="header-wrap">
+                <input id="image_a" type="radio" value="image_a.jpg" name="image">
+                <label for="image_a">
+                  <img src="./images/dolphin.png">
+                </label>
+              </div>
+            </div>
+            <div class="col-2">
+              <div class="header-wrap">
+                <input id="image_b" type="radio" value="image_b.jpg" name="image">
+                <label for="image_b">
+                  <img src="./images/kaiju.png">
+                </label>
+              </div>
+            </div>
+            <div class="col-2">
+              <div class="header-wrap">
+                <input id="image_c" type="radio" value="image_c.jpg" name="image">
+                <label for="image_c">
+                  <img src="./images/nimo.png">
+                </label>
+              </div>
+            </div>
+            <div class="col-2">
+              <div class="header-wrap">
+                <input id="image_d" type="radio" value="image_d.jpg" name="image">
+                <label for="image_d">
+                  <img src="./images/tako.png">
+                </label>
+              </div>
+            </div>
+            <div class="col-2">
+              <div class="header-wrap">
+                <input id="image_e" type="radio" value="image_e.jpg" name="image">
+                <label for="image_e">
+                  <img src="./images/seahorse.png">
+                </label>
+              </div>
+            </div>
+            <button type="submit" class="team-btn btn shadow-sm">チームを確定</button>
+            <div id="footer">
+              <p>@natulog</p>
+            </div>
+          </form>
+      </div>
+    </div>
+  </body>
+</html>

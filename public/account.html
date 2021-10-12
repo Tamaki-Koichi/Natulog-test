@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>アカウント設定</title>
+    <!-- BootstrapのCSS読み込み -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Style.css読み込み -->
+    <link rel="stylesheet" href="./css/style.css">
+  
+    <!-- jQuery読み込み -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <!-- BootstrapのJS読み込み -->
+    <script src="js/bootstrap.min.js"></script>
+  </head>
+  <body>
+    <header>
+      
+    </header>
+    <div class="container">
+      <div class="row justify-content-between align-items-center" id="header">
+        <div class="col-2">
+          <a href="javascript:history.back()" class="text-decoration-none"><img class="mx-auto d-block" id="return" src="./images/return.svg" style="width: 95px;"></a>
+        </div>
+        <div class="col-8">
+          <img class="mx-auto d-block" id="logo" src="./images/logo.png" style="width: 250px;">
+        </div>
+        <div class="col-2">
+          <!-- <a href="./setting.html" class="text-decoration-none"><img class="mx-auto d-block" id="setting" src="./images/setting.png" style="width: 70px;"></a> -->
+        </div>
+      </div>
+    <div class="container">
+      <div class="contents">
+        <div class="main">
+          <div class="row justify-content-center">
+            <div class="container maxWidth">
+              <h1>アカウント設定</h1>
+              <div class="wrap">
+                <img class="profile-img" src="./images/麻雀女子 3.png" alt="">
+                <label>
+                  <span class="btn btn-primary2">
+                      画像を選択
+                      <input type="file" style="display:none">
+                  </span>
+                </label>
+              </div>
+              <p class="d-flex align-items-start">ユーザーネーム変更</p>
+              <div class="input-group mb-3">
+                <input type="name" class="form-control" placeholder="ユーザーネーム入力" aria-label="#" aria-describedby="button-addon2">
+                <div class="input-group-append">
+                  <button class="btn shadow-sm-sm" type="button" id="button-addon2">変更</button>
+                </div>
+              </div>
+              <div class="d-flex align-items-start">
+                <p>パスワード変更</p>
+              </div>
+              <div class="input-group">
+                <input type="password" class="form-control" placeholder="パスワード入力" aria-label="#" aria-describedby="button-addon2">
+                <div class="input-group-append">
+                  <button class="btn shadow-sm-sm" type="button" id="button-addon2">変更</button>
+                </div>
+              </div>
+            </div>
+            <div class="form-floating">
+              <div id="footer">
+                <p>@natulog</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+     </div>
+   </div>
+  </body>
+</html>

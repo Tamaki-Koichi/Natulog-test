@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Bootstrap Sample</title>
+    <title>設定</title>
     <!-- BootstrapのCSS読み込み -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
 
@@ -23,25 +23,31 @@
     <div class="container">
       <div class="row justify-content-between align-items-center" id="header">
         <div class="col-2">
-            <!-- <a href="javascript:history.back()" class="text-decoration-none"><img class="mx-auto d-block" id="return" src="./images/return.svg"></a> -->
+          <a href="javascript:history.back()" class="text-decoration-none"><img class="mx-auto d-block" id="return" src="./images/return.svg" style="width: 95px;"></a>
         </div>
         <div class="col-8">
-            <img class="mx-auto d-block" id="logo" src="./images/logo.png">
+          <img class="mx-auto d-block" id="logo" src="./images/logo.png" style="width: 250px;">
         </div>
         <div class="col-2">
-          <!-- <a href="./setting.html" class="text-decoration-none"><img class="mx-auto d-block" id="setting" src="./images/setting.png"></a> -->
+          <!-- <a href="./setting.html" class="text-decoration-none"><img class="mx-auto d-block" id="setting" src="./images/setting.png" style="width: 70px;"></a> -->
         </div>
       </div>
-      <div id="contents">
+      <div class="contents">
         <div class="main">
           <div class="row justify-content-center">
             <div class="container maxWidth">
-              <h1>登録が完了しました！</h1>
-              <h4>今からあなたは〇〇の動物として転生します。</h4>
-
+              <h1>設定</h1>
+              <img id="main-img"  src="./images/setting.png" alt="">
+              <div class="form-floating mb-3">
+                <a class="btn shadow-sm" href="./account.html">アカウント設定</a>
+              </div>
+              <div class="form-floating">
+                <a class="btn shadow-sm" href="./blocked.html">ブロック管理</a>
+              </div>
             </div>
             <div id="footer">
               <p>@natulog</p>
+            </div>
             </div>
           </div>
         </div>
