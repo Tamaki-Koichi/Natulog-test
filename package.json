@@ -1,0 +1,15 @@
+{
+  "scripts": {
+  "deploy": "firebase deploy"
+  },
+  "dependencies": {
+    "firebase": "^9.1.2"
+  },
+  "name": "s2014",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "devDependencies": {
+    "firebase-tools": "^9.20.0"
+  }
+}
