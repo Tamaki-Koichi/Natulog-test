@@ -1,17 +1,3 @@
-// //サインアップ処理
-// const auth = getAuth();
-// createUserWithEmailAndPassword(auth, email, password)
-//   .then((userCredential) => {
-//     // Signed in
-//     const user = userCredential.user;
-//     // ...
-//   })
-//   .catch((error) => {
-//     const errorCode = error.code;
-//     const errorMessage = error.message;
-//     // ..
-// });
-
 
 // サインアップボタンが押されたら
  function handleSignUp() {
@@ -89,7 +75,7 @@ function toggleSignIn() {
 function initApp() {
 	// Listening for auth state changes.
 	firebase.auth().onAuthStateChanged(function(user) {
-		// document.getElementById('quickstart-verify-email').disabled = true;
+		document.getElementById('quickstart-verify-email').disabled = true;
 		if (user) {
 			// User is signed in.
 			var displayName = user.displayName;
@@ -112,10 +98,10 @@ function initApp() {
 		document.getElementById('quickstart-sign-in').disabled = false;
 	});
 
-	// document.getElementById('quickstart-sign-in').addEventListener('click', toggleSignIn, false);
+	document.getElementById('quickstart-sign-in').addEventListener('click', toggleSignIn, false);
 }
 
-window.onload = function() {
+window.addEventListener = function() {
 	initApp();
 };
 
@@ -130,4 +116,17 @@ function logout() {
         console.log(`ログアウト時にエラーが発生しました (${error})`);
       });
   });
+}
+
+// // メッセージのやり取り
+// const firebaseApp = initializeApp(getFirebaseConfig());
+// getMessaging(firebaseApp);
+// console.info('Firebase messaging service worker is set up');
+
+function loc() {
+	window.location = "./1stTransferred.html";
+}
+
+function tm(){
+	tm = setTimeout("loc()",10000);
 }
