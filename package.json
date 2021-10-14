@@ -1,15 +1,22 @@
 {
+  "name": "natulog",
+  "version": "1.0.0",
+  "description": "[Firebase Web Codelab](https://firebase.google.com/codelabs/firebase-web)",
+  "private": true,
   "scripts": {
-  "deploy": "firebase deploy"
+    "build": "webpack",
+    "start": "webpack --watch --progress",
+    "visualize-bundle": "webpack --analyze"
+  },
+  "author": "",
+  "license": "Apache-2.0",
+  "devDependencies": {
+    "webpack": "^5.48.0",
+    "webpack-bundle-analyzer": "^4.4.2",
+    "webpack-cli": "^4.7.2"
   },
   "dependencies": {
     "firebase": "^9.1.2"
   },
-  "name": "s2014",
-  "version": "1.0.0",
-  "main": "index.js",
-  "license": "MIT",
-  "devDependencies": {
-    "firebase-tools": "^9.20.0"
-  }
+  "main": "vue.js"
 }
