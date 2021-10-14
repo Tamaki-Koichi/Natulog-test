@@ -11,7 +11,7 @@
 		alert('Please enter a password.');
 		return;
 	}
-	// Create user with email and pass.
+	// ユーザー登録.
 	firebase.auth().createUserWithEmailAndPassword(email, password)
   .then((userCredential) => {
     // Signed in
@@ -49,7 +49,7 @@ function toggleSignIn() {
 			alert('Please enter a password.');
 			return;
 		}
-		// Sign in with email and pass.
+		// ログイン.
 		firebase.auth().signInWithEmailAndPassword(email, password).catch(function(error) {
 			// Handle Errors here.
 			var errorCode = error.code;
@@ -123,10 +123,21 @@ function logout() {
 // getMessaging(firebaseApp);
 // console.info('Firebase messaging service worker is set up');
 
+// トランスファー画面の切り替え
 function loc() {
 	window.location = "./1stTransferred.html";
 }
-
 function tm(){
 	tm = setTimeout("loc()",10000);
 }
+
+window.onpageshow = function(event) {
+	if (event.persisted) {
+		 window.location.reload();
+	}
+};
+
+// function onunload() {
+// 	alert('Back buttom is pushed ??');
+// 	location.replace(document.location);
+// 	}; 
