@@ -19,7 +19,7 @@ import { initializeApp } from 'firebase/app';
 import {
   getAuth,
   onAuthStateChanged,
-  GoogleAuthProvider,
+  EmailAuthProvider,
   signInWithPopup,
   signOut,
 } from 'firebase/auth';
@@ -47,15 +47,15 @@ import { getPerformance } from 'firebase/performance';
 
 import { getFirebaseConfig } from './firebase-config.js';
 
-// Signs-in Friendly Chat.
+// Signs-in natulog.
 async function signIn() {
-  alert('TODO: Implement Google Sign-In');
-  // TODO 1: Sign in Firebase with credential from the Google user.
-  var provider = new GoogleAuthProvider();
+  alert('TODO: Implement Email Sign-In');
+  // TODO 1: Sign in Firebase with password and email.
+  var provider = new EmailAuthProvider();
   await signInWithPopup(getAuth(), provider);
 }
 
-// Signs-out of Friendly Chat.
+// Signs-out of natulog.
 function signOutUser() {
   // TODO 2: Sign out of Firebase.
     // Sign out of Firebase.
