@@ -1,6 +1,6 @@
 
 // サインアップボタンが押されたら
- function handleSignUp() {
+function handleSignUp() {
 	var email = document.getElementById('email').value;
 	var password = document.getElementById('password').value;
 	if (email.length < 4) {
