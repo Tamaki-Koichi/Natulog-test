@@ -16,7 +16,7 @@ function handleSignUp() {
   .then((userCredential) => {
     // Signed in
     const user = userCredential.user;
-		location.href = './Transfer.html';
+		location.href = './transfer.html';
     // ...
   })
 	.catch(function(error) {
@@ -115,4 +115,30 @@ function logout() {
         console.log(`ログアウト時にエラーが発生しました (${error})`);
       });
   });
+}
+
+// ページ移動するためのタイマーをセット
+function tm(){
+	tm = setTimeout("loc()",10 * 1000);
+}
+
+function loc() {
+	window.location = "../transferred.html";
+}
+
+function select(){
+	var myAvatorNo;
+	var teamNo = Math.floor(Math.random() * (4 - 1)) +1;
+
+	console.log(teamNo);
+	if(teamNo == 1){
+		myAvatorNo = Math.floor(Math.random()*(9-4)) + 4;
+		console.log(myAvatorNo);
+	}else if(teamNo == 2){
+		myAvatorNo = Math.floor(Math.random()*(14-9)) + 9;
+		console.log(myAvatorNo);
+	}else{
+		myAvatorNo = Math.floor(Math.random()*(20-14)) + 14;
+		console.log(myAvatorNo);
+	}
 }
