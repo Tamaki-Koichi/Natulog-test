@@ -5,8 +5,6 @@ var messagesRef = db.collection("messages");
 
 var addDoc;
 
-// const format = require('date-fns/format');
-
 async function saveMessage(messageText) {
   // TODO 7: Push a new message to Cloud Firestore.
   // Add a new message entry to the Firebase database.
@@ -14,7 +12,7 @@ async function saveMessage(messageText) {
   db.collection("messages").doc().set({
     // name: getUserName(),
     text: messageText,
-    timestamp: firebase.firestore.Timestamp.fromDate(new Date())
+    timestamp: firebase.firestore.Timestamp.fromDate(new Date()),
   })
   .then(() => {
     document.getElementById('messages');
@@ -24,36 +22,26 @@ async function saveMessage(messageText) {
   });
 }
 
-// // Loads chat messages history and listens for upcoming ones.
-function loadMessages() {
-  // TODO 8: Load and listen for new messages.
-  // Create the query to load the last 12 messages and listen for new ones.
-  const recentMessagesQuery = query(collection(getFirestore(), 'messages'), orderBy('timestamp', 'desc'), limit(12));
-  
-  // Start listening to the query.
-  onSnapshot(recentMessagesQuery, function(snapshot) {
-    snapshot.docChanges().forEach(function(change) {
-      if (change.type === 'removed') {
-        deleteMessage(change.doc.id);
-      } else {
-        var message = change.doc.data();
-        displayMessage(change.doc.id, message.timestamp, message.name,
-                      message.text, message.profilePicUrl, message.imageUrl);
-      }
-    });
-  });
-}
+// Loads chat messages history and listens for upcoming ones.
+// messagesRef.orderBy("timestamp","desc").limit(12).get()
+//     .then((querySnapshot) => {
+//         querySnapshot.forEach((doc) => {
+//             // doc.data() is never undefined for query doc snapshots
+//             displayMessage(doc.id, doc.data().timestamp, doc.data().name,doc.data().text, '', '');
+//         });
+//     })
+//     .catch((error) => {
+//         console.log("Error getting documents: ", error);
+//     });
 
-messagesRef.orderBy('timestamp', 'desc').limit(12).get()
-    .then((querySnapshot) => {
-        querySnapshot.forEach((doc) => {
-            // doc.data() is never undefined for query doc snapshots
-            displayMessage(doc.id, doc.data().timestamp, doc.data().name,doc.data().text, '', '');
-        });
-    })
-    .catch((error) => {
-        console.log("Error getting documents: ", error);
-    });
+messagesRef.orderBy("timestamp","desc").limit(2)
+.onSnapshot((querySnapshot) => {
+  querySnapshot.forEach((doc) => {
+    // doc.data() is never undefined for query doc snapshots
+    displayMessage(doc.id, doc.data().timestamp, doc.data().name,doc.data().text, '', '')
+  });
+})
+
 
 // Displays a Message in the UI.
 function displayMessage(id, timestamp, name, text, picUrl, imageUrl) {
@@ -67,9 +55,7 @@ function displayMessage(id, timestamp, name, text, picUrl, imageUrl) {
     div.querySelector('.pic').style.backgroundImage =
       'url(' + addSizeToGoogleProfilePic(picUrl) + ')';
   }
-
-  const myTimestamp = firebase.firestore.Timestamp.now();
-  const myToDated = myTimestamp.toDate();
+  const myToDated = timestamp.toDate();
 
   // div.querySelector('.name').textContent = name;
   div.querySelector('.date').textContent = dateFns.format(myToDated, "YY/MM/DD(ddd) hh:mm");
@@ -118,6 +104,44 @@ var MESSAGE_TEMPLATE =
 '</div>' 
 ;
 
+// function createAndInsertMessage(id, timestamp) {
+//   const container = document.createElement('div');
+//   container.innerHTML = MESSAGE_TEMPLATE;
+//   const div = container.firstChild;
+//   div.setAttribute('id', id);
+
+//   // If timestamp is null, assume we've gotten a brand new message.
+//   // https://stackoverflow.com/a/47781432/4816918
+//   timestamp = timestamp ? timestamp.toMillis() : Date.now();
+//   div.setAttribute('timestamp', timestamp);
+
+//   // figure out where to insert new message
+//   var messageListElement = document.getElementById('messages'); 
+
+//   const existingMessages = messageListElement.children;
+//   if (existingMessages.length === 0) {
+//     messageListElement.appendChild(div);
+//   } else {
+//     let messageListNode = existingMessages[0];
+//     while (messageListNode) {
+//       const messageListNodeTime = messageListNode.getAttribute('timestamp');
+//       if (!messageListNodeTime) {
+//         throw new Error(
+//           `Child ${messageListNode.id} has no 'timestamp' attribute`
+//         );
+//       }
+//       if (messageListNodeTime > timestamp) {
+//         break;
+//       }
+//       messageListNode = messageListNode.nextSibling;
+//     }
+//     // messageListElement.insertBefore(div, messageListNode);
+//     messageListElement.appendChild(div, messageListNode);
+//   }
+
+//   return div;
+// }
+
 function createAndInsertMessage(id, timestamp) {
   const container = document.createElement('div');
   container.innerHTML = MESSAGE_TEMPLATE;
@@ -137,24 +161,20 @@ function createAndInsertMessage(id, timestamp) {
     messageListElement.appendChild(div);
   } else {
     let messageListNode = existingMessages[0];
-
     while (messageListNode) {
       const messageListNodeTime = messageListNode.getAttribute('timestamp');
-
       if (!messageListNodeTime) {
         throw new Error(
           `Child ${messageListNode.id} has no 'timestamp' attribute`
         );
       }
-
       if (messageListNodeTime > timestamp) {
         break;
       }
-
       messageListNode = messageListNode.nextSibling;
     }
-
-    messageListElement.insertBefore(div, messageListNode);
+    // messageListElement.insertBefore(div, messageListNode);
+    messageListElement.appendChild(div, messageListNode);
   }
 
   return div;
@@ -191,19 +211,14 @@ function initApp() {
 			toggleSignIn();
 		}
 	});
-// 	document.getElementById('quickstart-sign-in').addEventListener('click', toggleSignIn, false);
 
+
+// 	document.getElementById('quickstart-sign-in').addEventListener('click', toggleSignIn, false);
 	messageInputElement =  document.getElementById('message');
 	messageInputElement.addEventListener('keyup', toggleButton);
-
-
-
 	messageInputElement.addEventListener('change', toggleButton);
-
 	messageFormElement = document.getElementById('submit');
 	messageFormElement.addEventListener('click', onMessageFormSubmit, false);
-
-
 }
 
 window.addEventListener = function() {
@@ -347,22 +362,6 @@ function authStateObserver(user) {
   }
 }
 
-// Returns true if user is signed-in. Otherwise false and displays a message.
-function checkSignedInWithMessage() {
-  // Return true if the user is signed in Firebase
-  if (isUserSignedIn()) {
-    return true;
-  }
-
-  // Display a message to the user using a Toast.
-  var data = {
-    message: 'You must sign-in first',
-    timeout: 2000,
-  };
-  signInSnackbarElement.MaterialSnackbar.showSnackbar(data);
-  return false;
-}
-
 // Resets the given MaterialTextField.
 function resetMaterialTextfield(element) {
   element.value = '';
@@ -407,15 +406,4 @@ function deleteMessage(id) {
   }
 }
 
-
-
-// Adds a size to Google Profile pics URLs.
-function addSizeToGoogleProfilePic(url) {
-  if (url.indexOf('googleusercontent.com') !== -1 && url.indexOf('?') === -1) {
-    return url + '?sz=150';
-  }
-  return url;
-}
-
-
-
+// loadMessages();
