@@ -5,6 +5,10 @@ var messagesRef = db.collection("messages");
 
 var addDoc;
 
+//   function enter(){
+
+//     }
+
 async function saveMessage(messageText) {
   // TODO 7: Push a new message to Cloud Firestore.
   // Add a new message entry to the Firebase database.
@@ -14,33 +18,25 @@ async function saveMessage(messageText) {
     text: messageText,
     timestamp: firebase.firestore.Timestamp.fromDate(new Date()),
   })
-  .then(() => {
-    document.getElementById('messages');
-  })
   .catch((error) => {
     console.error("Error writing document: ", error);
   });
+  if( window.event.keyCode == 13 ){
+    document.form1.submit();
+  }
 }
 
-// Loads chat messages history and listens for upcoming ones.
-// messagesRef.orderBy("timestamp","desc").limit(12).get()
-//     .then((querySnapshot) => {
-//         querySnapshot.forEach((doc) => {
-//             // doc.data() is never undefined for query doc snapshots
-//             displayMessage(doc.id, doc.data().timestamp, doc.data().name,doc.data().text, '', '');
-//         });
-//     })
-//     .catch((error) => {
-//         console.log("Error getting documents: ", error);
-//     });
-
-messagesRef.orderBy("timestamp","desc").limit(2)
-.onSnapshot((querySnapshot) => {
-  querySnapshot.forEach((doc) => {
-    // doc.data() is never undefined for query doc snapshots
-    displayMessage(doc.id, doc.data().timestamp, doc.data().name,doc.data().text, '', '')
-  });
-})
+function loadMessages() {
+  // if(){
+    messagesRef.orderBy("timestamp","desc").limit(5)
+    .onSnapshot((querySnapshot) => {
+       querySnapshot.forEach((doc) => {
+         // doc.data() is never undefined for query doc snapshots
+         displayMessage(doc.id, doc.data().timestamp, doc.data().name,doc.data().text, '', '')
+       });
+    })
+  // }
+}
 
 
 // Displays a Message in the UI.
@@ -104,61 +100,23 @@ var MESSAGE_TEMPLATE =
 '</div>' 
 ;
 
-// function createAndInsertMessage(id, timestamp) {
-//   const container = document.createElement('div');
-//   container.innerHTML = MESSAGE_TEMPLATE;
-//   const div = container.firstChild;
-//   div.setAttribute('id', id);
-
-//   // If timestamp is null, assume we've gotten a brand new message.
-//   // https://stackoverflow.com/a/47781432/4816918
-//   timestamp = timestamp ? timestamp.toMillis() : Date.now();
-//   div.setAttribute('timestamp', timestamp);
-
-//   // figure out where to insert new message
-//   var messageListElement = document.getElementById('messages'); 
-
-//   const existingMessages = messageListElement.children;
-//   if (existingMessages.length === 0) {
-//     messageListElement.appendChild(div);
-//   } else {
-//     let messageListNode = existingMessages[0];
-//     while (messageListNode) {
-//       const messageListNodeTime = messageListNode.getAttribute('timestamp');
-//       if (!messageListNodeTime) {
-//         throw new Error(
-//           `Child ${messageListNode.id} has no 'timestamp' attribute`
-//         );
-//       }
-//       if (messageListNodeTime > timestamp) {
-//         break;
-//       }
-//       messageListNode = messageListNode.nextSibling;
-//     }
-//     // messageListElement.insertBefore(div, messageListNode);
-//     messageListElement.appendChild(div, messageListNode);
-//   }
-
-//   return div;
-// }
-
 function createAndInsertMessage(id, timestamp) {
-  const container = document.createElement('div');
-  container.innerHTML = MESSAGE_TEMPLATE;
-  const div = container.firstChild;
-  div.setAttribute('id', id);
+  // 新しいDOMオブジェクトを生成
+  const contents = document.createElement('div');
+  contents.innerHTML = MESSAGE_TEMPLATE;
+  var messageListElement = document.getElementById('messages'); 
+  messageListElement.appendChild(contents);
+  contents.setAttribute('id', id);
 
   // If timestamp is null, assume we've gotten a brand new message.
   // https://stackoverflow.com/a/47781432/4816918
   timestamp = timestamp ? timestamp.toMillis() : Date.now();
-  div.setAttribute('timestamp', timestamp);
-
-  // figure out where to insert new message
-  var messageListElement = document.getElementById('messages'); 
+  contents.setAttribute('timestamp', timestamp);
 
   const existingMessages = messageListElement.children;
+
   if (existingMessages.length === 0) {
-    messageListElement.appendChild(div);
+    messageListElement.appendChild(container);
   } else {
     let messageListNode = existingMessages[0];
     while (messageListNode) {
@@ -168,16 +126,15 @@ function createAndInsertMessage(id, timestamp) {
           `Child ${messageListNode.id} has no 'timestamp' attribute`
         );
       }
-      if (messageListNodeTime > timestamp) {
+      // if (messageListNodeTime > timestamp) {
+      if (messageListNodeTime < timestamp) {
         break;
       }
       messageListNode = messageListNode.nextSibling;
     }
-    // messageListElement.insertBefore(div, messageListNode);
-    messageListElement.appendChild(div, messageListNode);
+    messageListElement.insertBefore(contents, messageListNode);
   }
-
-  return div;
+  return contents;
 }
 
 var messageListElement = document.getElementById('messages');
@@ -190,6 +147,7 @@ var mediaCaptureElement;
 var userPicElement;
 var userNameElement;
 var signInSnackbarElement;
+
 
 
 function initApp() {
@@ -212,11 +170,7 @@ function initApp() {
 		}
 	});
 
-
-// 	document.getElementById('quickstart-sign-in').addEventListener('click', toggleSignIn, false);
-	messageInputElement =  document.getElementById('message');
-	messageInputElement.addEventListener('keyup', toggleButton);
-	messageInputElement.addEventListener('change', toggleButton);
+  messageInputElement =  document.getElementById('message');
 	messageFormElement = document.getElementById('submit');
 	messageFormElement.addEventListener('click', onMessageFormSubmit, false);
 }
@@ -236,17 +190,6 @@ function logout() {
         console.log(`ログアウト時にエラーが発生しました (${error})`);
       });
   });
-}
-
-// Enables or disables the submit button depending on the values of the input
-// fields.
-function toggleButton() {
-	console.log('toggleButton()');
-  if (messageInputElement.value) {
-    messageFormElement.removeAttribute('disabled');
-  } else {
-    messageFormElement.setAttribute('disabled', 'true');
-  }
 }
 
 // Saves a new message containing an image in Firebase.
@@ -340,7 +283,6 @@ function onMessageFormSubmit(e) {
     saveMessage(messageInputElement.value).then(function () {
       // Clear message text field and re-enable the SEND button.
       resetMaterialTextfield(messageInputElement);
-      toggleButton();
     });
   }
 }
@@ -365,7 +307,6 @@ function authStateObserver(user) {
 // Resets the given MaterialTextField.
 function resetMaterialTextfield(element) {
   element.value = '';
-  element.parentNode.MaterialTextfield.boundUpdateClassesHandler();
 }
 
 async function saveMessagingDeviceToken() {
@@ -406,4 +347,4 @@ function deleteMessage(id) {
   }
 }
 
-// loadMessages();
+loadMessages();

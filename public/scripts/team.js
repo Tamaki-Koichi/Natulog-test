@@ -118,7 +118,7 @@ function createAndInsertMessage(id, timestamp) {
   const existingMessages = messageListElement.children;
 
   if (existingMessages.length === 0) {
-    messageListElement.appendChild(contents);
+    messageListElement.appendChild(container);
   } else {
     let messageListNode = existingMessages[0];
     while (messageListNode) {
@@ -128,15 +128,13 @@ function createAndInsertMessage(id, timestamp) {
           `Child ${messageListNode.id} has no 'timestamp' attribute`
         );
       }
-      if (messageListNodeTime > timestamp) {
+      // if (messageListNodeTime > timestamp) {
+      if (messageListNodeTime < timestamp) {
         break;
       }
       messageListNode = messageListNode.nextSibling;
     }
-    var i;
-    for(i = 1; i < contents.children.length; i++){
-      contents.insertBefor(contents, messageListElement.firstChild);
-    }
+    messageListElement.insertBefore(contents, messageListNode);
   }
   return contents;
 }
@@ -212,7 +210,6 @@ var mediaCaptureElement;
 var userPicElement;
 var userNameElement;
 var signInSnackbarElement;
-
 
 function initApp() {
 	console.log('initApp()');
