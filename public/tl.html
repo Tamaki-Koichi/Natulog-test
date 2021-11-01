@@ -53,7 +53,7 @@
             <div class="d-flex justify-content-end">
               <div class="col">
                 <div class="header-wrap">
-                  <a href=""><img class="" id="logout" src="./images/logout.png"><p class="header-p">ログアウト</p></a>
+                  <a href="" id="sign-out" onclick="logout()"><img id="logout"  src="./images/logout.png"><p  class="header-p">ログアウト</p></a>
                 </div>
               </div>
               <div class="col">
@@ -84,16 +84,24 @@
         <!-- 記事投稿画面ここから -->
         <div class="col-10">
           <div class="box">
+            <div id="main-top">
+              <img class="main-top-bg" src="./images/umi-original.jpeg" alt="">
+              <p class="charactor"><img class="main-top-img" src="./images/kaiju.png" alt=""></p>
+              <img class="top-gomi-left" src="./images/gomi4.png" alt="">
+              <img class="top-gomi-right" src="./images/gomi4.png" alt="">
+            </div>
+          </div>
+          <div class="box">
             <div id="main-middle" class="shadow-sm p-3">
               <div class="row justify-content-end">
                 <div class="col-10">
-                  <textarea class="post form-control" placeholder="投稿する"></textarea>
+                  <textarea id="message" class="post form-control" placeholder="投稿する"></textarea>
                 </div>
                 <div class="col-2 d-flex justify-content-sm-center">
                   <a href="#">
                     <img class="post-pic" src="./images/camera.png"><p class="post-p">画像追加</p>
                   </a>
-                  <a href="#">
+                  <a href="#" id="submit">
                     <img class="post-send" src="./images/send.png"><p class="post-p">送信</p>
                   </a>
                 </div>
@@ -105,64 +113,11 @@
           <div class="box">
             <div id="main-bottom">
               <div class="container" id="posted">
-                <div class="row justify-content-between border-bottom">
-                  <div class="col-5 d-flex justify-content-start">
-                    <img class="posted-img" src="./images/麻雀女子 3.png" alt="">
-                    <a href="#" class="align-self-start">アカウント名</a>
-                  </div>
-                  <div class="col-4 d-flex justify-content-end">
-                    <p>投稿日時</p>
-                  </div>
-                  <div class="row justify-content-center">
-                    <div class="col-7 align-self-center">
-                      <p>つぶやきの内容を表示</p>
-                    </div>
-                  </div>
-                  <div class="col d-flex justify-content-end">
-                    <a href="./report.html">通報</a>
-                  </div>
-                </div>
-                <div class="row justify-content-between border-bottom">
-                  <div class="col-5 d-flex justify-content-start">
-                    <img class="posted-img" src="./images/麻雀女子 3.png" alt="">
-                    <a href="#" class="align-self-start">アカウント名</a>
-                  </div>
-                  <div class="col-4 d-flex justify-content-end">
-                    <p>投稿日時</p>
-                  </div>
-                  <div class="row justify-content-center">
-                    <div class="col-7 align-self-center">
-                      <p>つぶやきの内容を表示</p>
-                    </div>
-                  </div>
-                  <div class="col d-flex justify-content-end">
-                    <a href="./report.html">通報</a>
-                  </div>
-                </div>
-                <div class="row justify-content-between border-bottom">
-                  <div class="col-5 d-flex justify-content-start">
-                    <img class="posted-img" src="./images/麻雀女子 3.png" alt="">
-                    <a href="#" class="align-self-start">アカウント名</a>
-                  </div>
-                  <div class="col-4 d-flex justify-content-end">
-                    <p>投稿日時</p>
-                  </div>
-                  <div class="row justify-content-center">
-                    <div class="col-7 align-self-center">
-                      <p>つぶやきの内容を表示</p>
-                    </div>
-                  </div>
-                  <div class="col d-flex justify-content-end">
-                    <a href="./report.html">通報</a>
-                  </div>
-                </div>
+                <div id="messages"></div>
               </div>
             </div>
           </div>
         </div>
-        <!-- 記事投稿画面ここまで -->
-       </div>
-      </div>
     </div>
   </body>
 </html>
