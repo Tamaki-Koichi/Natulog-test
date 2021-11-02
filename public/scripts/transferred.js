@@ -109,63 +109,37 @@ function select() {
                 case 19:
                     avatorName = 'トンビ';
             }
-
-            // }				
-
-
-
-            firebase.auth().onAuthStateChanged((user) => {
-                if (user) {
-                    var uid = user.uid;
-                    console.log(teamName);
-                    console.log(avatorName);
-                    console.log('uid取得完了');
-                    //ここまでは通ってるけどここから下が通ってない
-                    var docRef = db.collection("Users").doc(uid);
-                    docRef.set({
-                            //userId :uid,
-                            teamNumber: teamNum,
-                            team: teamName,
-                            avatorNumber: avatorNum,
-                            avator: avatorName
-                        })
-                        //ここまで
-                        .then((docRef) => {
-                            console.log("Document written with ID: ", docRef.id);
-                        })
-                        .catch((error) => {
-                            console.error("Error adding document: ", error);
-                        });
-
-                    docRef.get().then((doc) => {
-                        if (doc.exists) {
-                            console.log("Document data:", doc.data());
-                            teamNum = doc.data().teamNumber;
-                            avatorNum = doc.data().avatorNumber;
-                            teamName = doc.data().team;
-                            avatorName = doc.data().avator;
-                            console.log(teamNum);
-                            console.log(avatorNum);
-                            console.log(team);
-                            console.log(avator);
-                            var teamPic = document.getElementById("teamPic");
-                            teamPic.src = "./images/teampic/" + teamNum + ".jpg";
-                            var avatorPic = document.getElementById("avatorPic");
-                            avatorPic.src = "./images/avatorpic/" + avatorNum + ".png";
-                            var transResult = document.getElementById("transResult");
-                            transResult.innerHTML = `あなたは、${teamName}の${avatorName}に転生しました！`;
-                        } else {
-                            // doc.data() will be undefined in this case
-                            console.log("No such document!");
-                        }
-                    }).catch((error) => {
-                        console.log("Error getting document:", error);
-                    });
-                } else {
-                    console.log('uid取得失敗');
-                    //サインインできていないので登録画面に戻すようにしようかと
-                }
-            });
-
     }
+    firebase.auth().onAuthStateChanged((user) => {
+        if (user) {
+            var uid = user.uid;
+            console.log(teamName);
+            console.log(avatorName);
+            console.log('uid取得完了');
+            //ここまでは通ってるけどここから下が通ってない
+            var docRef = db.collection("Users").doc(uid);
+            docRef.set({
+                    //userId :uid,
+                    teamNumber: teamNum,
+                    team: teamName,
+                    avatorNumber: avatorNum,
+                    avator: avatorName
+                })
+                //ここまで
+                .then((docRef) => {
+                    console.log("Document written with ID: ", docRef.id);
+                })
+                .catch((error) => {
+                    console.error("Error adding document: ", error);
+                });
+        } else {
+            console.log('uid取得失敗');
+            //サインインできていないので登録画面に戻すようにしようかと
+        }
+    });
+    var teamPic = document.getElementById("teamPic");
+    teamPic.src = "./images/teampic/" + teamNum + ".jpg";
+    var avatorPic = document.getElementById("avatorPic");
+    avatorPic.src = "./images/avatorpic/" + avatorNum + ".png";
+    transResult.innerHTML = `あなたは、${teamName}の${avatorName}に転生しました！`;
 }
