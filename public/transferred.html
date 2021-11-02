@@ -19,8 +19,9 @@
     <!-- firebaseの読み込み -->
     <script src="/__/firebase/9.1.1/firebase-app-compat.js"></script>
     <script src="/__/firebase/9.1.1/firebase-auth-compat.js"></script>
+    <script src="/__/firebase/9.1.1/firebase-firestore-compat.js"></script>
     <script src="/__/firebase/init.js"></script>
-    <script src="./scripts/signin.js"></script>
+    <script src="./scripts/transferred.js"></script>
   </head>
   <body onLoad="select()">
     <div class="container">
@@ -40,7 +41,15 @@
         <div class="row justify-content-center">
           <div class="container maxWidth">
             <h1>転生が完了しました！</h1>
-            <h4>あなたは、○〇の○〇に転生しました！</h4>
+            <div id="transResult">
+              <h4></h4>
+            </div>
+            <div class="box">
+              <div id="main-top">
+                <img id="teamPic"class="main-top-bg" src="./images/umi-original.jpeg" alt="">
+                <p class="charactor"><img id="avatorPic" class="main-top-img" src="./images/kaiju.png" alt=""></p>
+              </div>
+            </div>
             <a class="btn shadow-sm" href="./myroom.html" role="button">My Roomで移動する</a>
           </div>
           <div id="footer">
