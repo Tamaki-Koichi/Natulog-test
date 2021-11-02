@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="ja">
-  <head>
+
+<head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -10,7 +11,7 @@
 
     <!-- Style.css読み込み -->
     <link rel="stylesheet" href="./css/style.css">
-  
+
     <!-- jQuery読み込み -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <!-- BootstrapのJS読み込み -->
@@ -22,42 +23,50 @@
     <script src="/__/firebase/9.1.1/firebase-firestore-compat.js"></script>
     <script src="/__/firebase/init.js"></script>
     <script src="./scripts/transferred.js"></script>
-  </head>
-  <body onLoad="select()">
+</head>
+
+<body onLoad="select()">
     <div class="container">
-      <div class="d-flex justify-content-between" id="header">
-        <div class="col-2">
-          <!-- <a href="javascript:history.back()" class="text-decoration-none"><img class="mx-auto d-block" id="return" src="./images/return.svg" style="width: 95px;"></a> -->
-        </div>
-        <div class="col-8">
-          <img class="mx-auto d-block" id="logo" src="./images/logo.png" style="width: 250px;">
-        </div>
-        <div class="col-2">
-          <!-- <a href="./setting.html" class="text-decoration-none"><img class="mx-auto d-block" id="setting" src="./images/setting.png" style="width: 70px;"></a> -->
-        </div>
-      </div>
-    <div class="contents">
-      <div class="main">
-        <div class="row justify-content-center">
-          <div class="container maxWidth">
-            <h1>転生が完了しました！</h1>
-            <div id="transResult">
-              <h4></h4>
+        <div class="d-flex justify-content-between" id="header">
+            <div class="col-2">
+                <!-- <a href="javascript:history.back()" class="text-decoration-none"><img class="mx-auto d-block" id="return" src="./images/return.svg" style="width: 95px;"></a> -->
             </div>
-            <div class="box">
-              <div id="main-top">
-                <img id="teamPic"class="main-top-bg" src="./images/umi-original.jpeg" alt="">
-                <p class="charactor"><img id="avatorPic" class="main-top-img" src="./images/kaiju.png" alt=""></p>
-              </div>
+            <div class="col-8">
+                <img class="mx-auto d-block" id="logo" src="./images/logo.png" style="width: 250px;">
             </div>
-            <a class="btn shadow-sm" href="./myroom.html" role="button">My Roomで移動する</a>
-          </div>
-          <div id="footer">
-            <p>@natulog</p>
-          </div>
+            <div class="col-2">
+                <!-- <a href="./setting.html" class="text-decoration-none"><img class="mx-auto d-block" id="setting" src="./images/setting.png" style="width: 70px;"></a> -->
+            </div>
         </div>
-      </div>
+        <div class="contents">
+            <div class="main">
+                <div class="row justify-content-center">
+                    <div class="container maxWidth">
+                        <h1>転生が完了しました！</h1>
+                        <div id="transResult">
+                            <h4></h4>
+                        </div>
+                        <div class="box">
+                            <div id="main-top">
+                                <img id="teamPic" class="main-top-bg" src="./images/umi-original.jpeg" alt="">
+                                <p class="charactor"><img id="avatorPic" class="main-top-img" src="./images/kaiju.png" alt=""></p>
+                            </div>
+                        </div>
+                        <form>
+                            <div class="form-floating" id="form_floating">
+                                <input type="text" class="form-control shadow-sm p-3 mb-3" id="floatingInput" placeholder="name">
+                                <label for="name">アバターに名前を付けよう！</label>
+                            </div>
+                        </form>
+                        <button onclick="userNameUpdate()"><a class="btn shadow-sm" href="./myroom.html" role="button">My Roomで移動する</a></button>
+                    </div>
+                    <div id="footer">
+                        <p>@natulog</p>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-    </div>
-  </body>
+</body>
+
 </html>
