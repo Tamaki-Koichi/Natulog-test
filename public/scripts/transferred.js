@@ -21,11 +21,9 @@ function initApp() {
             toggleSignIn();
         }
     });
-}
-
-window.addEventListener = function() {
-    initApp();
 };
+
+
 
 function select() {
     var avatorNum;
@@ -116,14 +114,14 @@ function select() {
             console.log(teamName);
             console.log(avatorName);
             console.log('uid取得完了');
-            //ここまでは通ってるけどここから下が通ってない
+
             var docRef = db.collection("Users").doc(uid);
             docRef.set({
-                    //userId :uid,
                     teamNumber: teamNum,
                     team: teamName,
                     avatorNumber: avatorNum,
-                    avator: avatorName
+                    avator: avatorName,
+                    user: null
                 })
                 //ここまで
                 .then((docRef) => {
@@ -132,9 +130,9 @@ function select() {
                 .catch((error) => {
                     console.error("Error adding document: ", error);
                 });
+
         } else {
             console.log('uid取得失敗');
-            //サインインできていないので登録画面に戻すようにしようかと
         }
     });
     var teamPic = document.getElementById("teamPic");
@@ -143,4 +141,31 @@ function select() {
     avatorPic.src = "./images/avatorpic/" + avatorNum + ".png";
     var transResult = document.getElementById("transResult");
     transResult.innerHTML = `あなたは、${teamName}の${avatorName}に転生しました！`;
+
+
+};
+
+function userNameUpdate() {
+    var userName = document.getElementById('name').value; //ユーザー名をテキストボックスから取得   
+    console.log(userName);
+    firebase.auth().onAuthStateChanged((user) => {
+        if (user) {
+            var uid = user.uid;
+            var docRef = db.collection("Users").doc(uid);
+            docRef.set({
+                    user: userName
+                })
+                .then((docRef) => {
+                    console.log("Document written with ID: ", docRef.id);
+                })
+                .catch((error) => {
+                    console.error("Error adding document: ", error);
+                });
+        } else {
+            console.log('uid取得失敗');
+        }
+    });
 }
+window.addEventListener = function() {
+    initApp();
+};
