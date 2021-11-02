@@ -141,5 +141,6 @@ function select() {
     teamPic.src = "./images/teampic/" + teamNum + ".jpg";
     var avatorPic = document.getElementById("avatorPic");
     avatorPic.src = "./images/avatorpic/" + avatorNum + ".png";
+    var transResult = document.getElementById("transResult");
     transResult.innerHTML = `あなたは、${teamName}の${avatorName}に転生しました！`;
 }
