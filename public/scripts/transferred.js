@@ -117,18 +117,19 @@ function select() {
 
             var docRef = db.collection("Users").doc(uid);
             docRef.set({
+                    user: null,
                     teamNumber: teamNum,
                     team: teamName,
                     avatorNumber: avatorNum,
                     avator: avatorName,
-                    user: null
+                    timestamp: firebase.firestore.Timestamp.fromDate(new Date())
                 })
                 //ここまで
                 .then((docRef) => {
-                    console.log("Document written with ID: ", docRef.id);
+                    //console.log("Document written with ID: ", docRef.id);
                 })
                 .catch((error) => {
-                    console.error("Error adding document: ", error);
+                    //console.error("Error adding document: ", error);
                 });
 
         } else {
@@ -143,28 +144,30 @@ function select() {
     transResult.innerHTML = `あなたは、${teamName}の${avatorName}に転生しました！`;
 
 
+
 };
 
 function userNameUpdate() {
-    var userName = document.getElementById('name').value; //ユーザー名をテキストボックスから取得   
+    const userName = document.getElementsByName('name')[0].value; //ユーザー名をテキストボックスから取得
     console.log(userName);
     firebase.auth().onAuthStateChanged((user) => {
         if (user) {
             var uid = user.uid;
             var docRef = db.collection("Users").doc(uid);
-            docRef.set({
-                    user: userName
+            docRef.update({
+                    user: userName,
                 })
                 .then((docRef) => {
-                    console.log("Document written with ID: ", docRef.id);
+                    //console.log("Document written with ID: ", docRef.id);
                 })
                 .catch((error) => {
-                    console.error("Error adding document: ", error);
+                    //console.error("Error adding document: ", error);
                 });
         } else {
             console.log('uid取得失敗');
         }
     });
+    window.Location = "myroom.html";
 }
 window.addEventListener = function() {
     initApp();
