@@ -5,12 +5,24 @@ var messagesRef = db.collection("team");
 
 var addDoc;
 
+// ログアウト処理
+function logout() {
+  firebase.auth().onAuthStateChanged(function(user){
+    firebase.auth().signOut().then(()=>{
+				location.href = './signin.html';
+				toggleSignIn();
+      })
+      .catch((error) => {
+        console.log(`ログアウト時にエラーが発生しました (${error})`);
+      });
+  });
+}
+
 async function saveMessage(messageText) {
   // TODO 7: Push a new message to Cloud Firestore.
   // Add a new message entry to the Firebase database.
-  // Add a new document in collection "cities"
   db.collection("team").doc().set({
-    // name: getUserName(),
+    name: userName,
     text: messageText,
     timestamp: firebase.firestore.Timestamp.fromDate(new Date()),
   })
@@ -20,22 +32,21 @@ async function saveMessage(messageText) {
 }
 
 function loadMessages() {
-    messagesRef.orderBy("timestamp","desc").limit(5)
-    .onSnapshot((querySnapshot) => {
-       querySnapshot.forEach((doc) => {
-         // doc.data() is never undefined for query doc snapshots
-         displayMessage(doc.id, doc.data().timestamp, doc.data().name,doc.data().text, '', '')
-       });
-    })
+  messagesRef.orderBy("timestamp","desc").limit(5)
+  .onSnapshot((querySnapshot) => {
+      querySnapshot.forEach((doc) => {
+        // doc.data() is never undefined for query doc snapshots
+        displayMessage(doc.id, doc.data().timestamp, doc.data().name,doc.data().text, '', '')
+      });
+  })
 }
-
 
 // Displays a Message in the UI.
 function displayMessage(id, timestamp, name, text, picUrl, imageUrl) {
   var messageListElement = document.getElementById('messages');
 
   var div =
-    document.getElementById(id) || createAndInsertMessage(id, timestamp);
+    document.getElementById(id) || createAndInsertMessage(id, timestamp,name);
     console.log(div);
   // profile picture
   if (picUrl) {
@@ -43,9 +54,11 @@ function displayMessage(id, timestamp, name, text, picUrl, imageUrl) {
       'url(' + addSizeToGoogleProfilePic(picUrl) + ')';
   }
   const myToDated = timestamp.toDate();
-
-  // div.querySelector('.name').textContent = name;
   div.querySelector('.date').textContent = dateFns.format(myToDated, "YY/MM/DD(ddd) hh:mm");
+  
+  const userName = name;
+  div.querySelector('.name').textContent = userName;
+  
   var messageElement = div.querySelector('.message');
 
   if (text) {
@@ -78,7 +91,7 @@ var MESSAGE_TEMPLATE =
 '<div class="row justify-content-between border-bottom">' + 
   '<div class="col-5 d-flex justify-content-start">' +
     '<img class="posted-img" src="./images/麻雀女子 3.png" alt="">' +
-     '<a href="#" class="align-self-start">アカウント名</a>' +
+    '<a href="#" class="align-self-start"><div class="name"></div></a>' +
   '</div>' +
   '<div class="col-4 d-flex justify-content-end">' +
     '<div class="date"></div>' +
@@ -91,24 +104,14 @@ var MESSAGE_TEMPLATE =
 '</div>' 
 ;
 
-// function createAndInsertMessage() {
-//   // 新しいDOMオブジェクトを生成
-//   const contents = document.createElement('div');
-//   contents.innerHTML = MESSAGE_TEMPLATE;
-//   var messageListElement = document.getElementById('messages'); 
-//   messageListElement.appendChild(contents);
-
-//   messageListElement.insertBefore(contents, messageListElement.firstChild);
-// }
-
-
-function createAndInsertMessage(id, timestamp) {
+function createAndInsertMessage(id, timestamp,name) {
   // 新しいDOMオブジェクトを生成
   const contents = document.createElement('div');
   contents.innerHTML = MESSAGE_TEMPLATE;
   var messageListElement = document.getElementById('messages'); 
   messageListElement.appendChild(contents);
   contents.setAttribute('id', id);
+  contents.setAttribute('name', name);
 
   // If timestamp is null, assume we've gotten a brand new message.
   // https://stackoverflow.com/a/47781432/4816918
@@ -137,120 +140,6 @@ function createAndInsertMessage(id, timestamp) {
     messageListElement.insertBefore(contents, messageListNode);
   }
   return contents;
-}
-
-
-// function createAndInsertMessage(id, timestamp) {
-//   const container = document.createElement('div');
-//   container.innerHTML = MESSAGE_TEMPLATE;
-//   const div = container.firstChild;
-//   div.setAttribute('id', id);
-
-//   // If timestamp is null, assume we've gotten a brand new message.
-//   // https://stackoverflow.com/a/47781432/4816918
-//   timestamp = timestamp ? timestamp.toMillis() : Date.now();
-//   div.setAttribute('timestamp', timestamp);
-
-//   // figure out where to insert new message
-//   var messageListElement = document.getElementById('messages'); 
-
-//   const existingMessages = messageListElement.children;
-//   if (existingMessages.length === 0) {
-//     messageListElement.appendChild(div);
-//   } else {
-//     let messageListNode = existingMessages[0];
-//     while (messageListNode) {
-//       const messageListNodeTime = messageListNode.getAttribute('timestamp');
-//       if (!messageListNodeTime) {
-//         throw new Error(
-//           `Child ${messageListNode.id} has no 'timestamp' attribute`
-//         );
-//       }
-//       if (messageListNodeTime > timestamp) {
-//         break;
-//       }
-//       messageListNode = messageListNode.nextSibling;
-//     }
-//     // messageListElement.insertBefore(div, messageListNode);
-//     messageListElement.appendChild(div, messageListNode);
-//   }
-//   return div;
-// }
-
-
-// // 新しいHTML要素を作成
-// var new_element1 = document.createElement('p');
-// new_element1.textContent = '追加テキスト その1';
-
-// // 指定した要素の前に挿入
-// function send(){
-//   // id属性で要素を取得
-//   var p2_element = document.getElementById('p2');   
-//   p2_element.before(new_element1);
-// }
-
-// function createAndInsertMessage() {
-//   // 新しいDOMオブジェクトを生成
-//   const contents = document.createElement('div');
-//   contents.innerHTML = MESSAGE_TEMPLATE;
-//   var messageListElement = document.getElementById('messages'); 
-//   messageListElement.appendChild(contents);
-
-//   messageListElement.insertBefore(contents, messageListElement.firstChild);
-// }
-
-
-var messageListElement = document.getElementById('messages');
-var messageFormElement = document.getElementById('message-form');
-var messageInputElement = document.getElementById('message');
-var submitButtonElement = document.getElementById('submit');
-var imageButtonElement = document.getElementById('submitImage');
-var imageFormElement = document.getElementById('image-form');
-var mediaCaptureElement;
-var userPicElement;
-var userNameElement;
-var signInSnackbarElement;
-
-function initApp() {
-	console.log('initApp()');
-	// Listening for auth state changes.
-	firebase.auth().onAuthStateChanged(function(user) {
-		if (user) {
-			// User is signed in.
-			var displayName = user.displayName;
-			var email = user.email;
-			var emailVerified = user.emailVerified;
-			var photoURL = user.photoURL;
-			var isAnonymous = user.isAnonymous;
-			var uid = user.uid;
-			var providerData = user.providerData;
-		} else {
-			// User is signed out.
-			location.href = './index.html';
-			toggleSignIn();
-		}
-	});
-
-  messageInputElement =  document.getElementById('message');
-	messageFormElement = document.getElementById('submit');
-	messageFormElement.addEventListener('click', onMessageFormSubmit, false);
-}
-
-window.addEventListener = function() {
-	initApp();
-};
-
-
-// ログアウト処理
-function logout() {
-  firebase.auth().onAuthStateChanged(function(user){
-    firebase.auth().signOut().then(()=>{
-			// サインアウト
-      })
-      .catch((error) => {
-        console.log(`ログアウト時にエラーが発生しました (${error})`);
-      });
-  });
 }
 
 // Saves a new message containing an image in Firebase.
@@ -354,7 +243,7 @@ function authStateObserver(user) {
     // User is signed in!
     // Get the signed-in user's profile pic and name.
     var profilePicUrl = getProfilePicUrl();
-    var userName = getUserName();
+    var userName = userName;
 
     // Set the user's profile pic and name.
     userPicElement.style.backgroundImage =
@@ -407,5 +296,60 @@ function deleteMessage(id) {
     div.parentNode.removeChild(div);
   }
 }
+
+var messageListElement = document.getElementById('messages');
+var messageFormElement = document.getElementById('message-form');
+var messageInputElement = document.getElementById('message');
+var submitButtonElement = document.getElementById('submit');
+var imageButtonElement = document.getElementById('submitImage');
+var imageFormElement = document.getElementById('image-form');
+var mediaCaptureElement = document.getElementById('mediaCapture');
+var mediaCaptureElement;
+var userPicElement;
+var signInSnackbarElement;
+var teamNum;
+var avatorNum;
+var userName;
+
+function initApp() {
+	// Listening for auth state changes.
+	firebase.auth().onAuthStateChanged(function(user) {
+		if (user) {
+			// User is signed in.
+			var displayName = user.displayName;
+			var email = user.email;
+			var emailVerified = user.emailVerified;
+			var photoURL = user.photoURL;
+			var isAnonymous = user.isAnonymous;
+			var uid = user.uid;
+			var providerData = user.providerData;
+
+      //アバター・背景の表示機構
+      var docRef = db.collection("Users").doc(uid);
+      docRef.get().then((doc) => {
+          if (doc.exists) {
+              userName = doc.data().name;
+          } else {
+              // doc.data() will be undefined in this case
+              console.log("No such document!");
+          }
+      }).catch((error) => {
+          console.log("Error getting document:", error);
+      });
+		} else {
+			// User is signed out.
+			location.href = './index.html';
+			toggleSignIn();
+		}
+	});
+  
+  messageInputElement =  document.getElementById('message');
+	messageFormElement = document.getElementById('submit');
+	messageFormElement.addEventListener('click', onMessageFormSubmit, false);
+}
+
+window.addEventListener = function() {
+	initApp();
+};
 
 loadMessages();
