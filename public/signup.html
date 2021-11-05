@@ -26,7 +26,7 @@
     <script src="/__/firebase/init.js"></script>
 
     <!-- javascript処理 -->
-    <script src="./scripts/transferred.js"></script>
+    <script src="./scripts/signin.js"></script>
   
     <!-- vue.js 開発バージョン -->
     <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
@@ -34,11 +34,11 @@
     <!-- date-fns読み込み -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/date-fns/1.30.1/date_fns.min.js" integrity="sha512-F+u8eWHrfY8Xw9BLzZ8rG/0wIvs0y+JyRJrXjp3VjtFPylAEEGwKbua5Ip/oiVhaTDaDs4eU2Xtsxjs/9ag2bQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   </head>
-  <body onLoad="select()">
+  <body>
     <div class="container">
-      <div class="d-flex justify-content-between" id="header">
+      <div class="row justify-content-between align-items-center" id="header">
         <div class="col-2">
-          <!-- <a href="javascript:history.back()" class="text-decoration-none"><img class="mx-auto d-block" id="return" src="./images/return.svg" style="width: 95px;"></a> -->
+          <a href="javascript:history.back()" class="text-decoration-none"><img class="mx-auto d-block" id="return" src="./images/return.svg" style="width: 95px;"></a>
         </div>
         <div class="col-8">
           <img class="mx-auto d-block" id="logo" src="./images/logo.png" style="width: 250px;">
@@ -46,28 +46,27 @@
         <div class="col-2">
           <!-- <a href="./setting.html" class="text-decoration-none"><img class="mx-auto d-block" id="setting" src="./images/setting.png" style="width: 70px;"></a> -->
         </div>
-      </div>
+      <!-- </div> -->
       <div class="contents">
         <div class="main">
           <div class="row justify-content-center">
             <div class="container maxWidth">
-              <h1>転生が完了しました！</h1>
-              <div id="transResult" class="trans-result">
-                <h4></h4>
-              </div>
-              <div class="box">
-                <div id="main-top">
-                  <img id="teamPic" class="main-top-bg" src="./images/umi-original.jpeg" alt="">
-                  <p class="charactor"><img id="avatorPic" class="main-top-img" src="./images/kaiju.png" alt=""></p>
+              <h1>サインアップ</h1>
+              <form action="#" method="get">
+                <!-- <div class="form-floating">
+                  <input type="name" class="form-control shadow-sm p-3 mb-3" id="floatingInput" placeholder="name">
+                  <label for="name">ユーザーネーム</label>
+                </div> -->
+                <div class="form-floating">
+                  <input type="email" class="form-control shadow-sm p-3 mb-3" id="email" placeholder="name@example.com">
+                  <label for="email">メールアドレス</label>            
                 </div>
-              </div>
-              <form class="input-name">
-                <div class="form-floating" id="form_floating">
-                    <input type="text" class="form-control shadow-sm p-3 mb-3" id="floatingInput" name="name" placeholder="name">
-                    <label for="name">アバターに名前を付けよう！</label>
+                <div class="form-floating">
+                  <input type="password" class="form-control shadow-sm p-3 mb-3" id="password" placeholder="Password">
+                  <label for="password">パスワード</label>            
                 </div>
-            </form>
-              <a onclick="userNameUpdate()" class="btn shadow-sm" href="./myroom.html" role="button">My Roomに移動する</a>
+                <button type="button" class="btn btn-primary" id="quickstart-sign-up" onclick="handleSignUp()" name="signup">登録する</button>
+              </form>
             </div>
             <div id="footer">
               <p>@natulog</p>

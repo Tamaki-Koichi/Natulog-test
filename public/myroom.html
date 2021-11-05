@@ -23,9 +23,9 @@
     <script src="/__/firebase/9.1.1/firebase-app-compat.js"></script>
     <script src="/__/firebase/9.1.1/firebase-auth-compat.js"></script>
     <script src="/__/firebase/9.1.1/firebase-firestore-compat.js"></script>
-    
-    <!-- initialize the SDK after all desired features are loaded -->
     <script src="/__/firebase/init.js"></script>
+
+    <!-- javascript処理 -->
     <script src="./scripts/myroom.js"></script>
 
     <!-- vue.js 開発バージョン -->
@@ -58,8 +58,8 @@
             <div class="d-flex justify-content-end">
               <div class="col">
                 <div class="header-wrap">
-                  <a href="" id="sign-out" onclick="logout()"><img id="logout"  src="./images/logout.png"><p  class="header-p">ログアウト</p></a>
-                  <!-- <button disabled class="btn btn-primary shadow-sm p-3 mb-3" id="quickstart-sign-in" name="signin">サインイン</button> -->
+                  <a href="" onclick="logout()"><img id="logout" src="./images/logout.png"><p  class="header-p">ログアウト</p></a>
+
                 </div>
               </div>
               <div class="col">
@@ -78,7 +78,7 @@
         <div class="col-2">
           <div class="flex-column">
             <div class="list-group">
-              <a href="./toppage.html" class="list-group-item list-group-item-action shadow-sm p-2 mb-3">TOP</a>
+              <a href="./index.html" class="list-group-item list-group-item-action shadow-sm p-2 mb-3">TOP</a>
               <a href="./tl.html" class="list-group-item list-group-item-action shadow-sm p-2 mb-3">TL</a>
               <a href="./team.html" class="list-group-item list-group-item-action shadow-sm p-2 mb-3">TEAM</a>
               <a href="./myroom.html" class="list-group-item list-group-item-action shadow-sm p-2 mb-3">MY ROOM</a>
@@ -92,10 +92,10 @@
         <div class="col-10">
           <div class="box">
             <div id="main-top">
-              <img id="teamPic" class="main-top-bg" src="./images/umi-original.jpeg" alt="">
-              <p class="charactor"><img id="avatorPic" class="main-top-img" src="./images/kaiju.png" alt=""></p>
-              <img class="top-gomi-left" src="./images/gomi4.png" alt="">
-              <img class="top-gomi-right" src="./images/gomi4.png" alt="">
+              <img id="teamPic" class="main-top-bg" src="./" alt="">
+              <p class="charactor"><img id="avatorPic" class="main-top-img" src="./" alt=""></p>
+              <img class="top-gomi-left" src="./" alt=""> <!-- ゴミの画像を挿入する -->
+              <img class="top-gomi-right" src="./" alt=""> <!-- ゴミの画像を挿入する -->
             </div>
           </div>
           <div class="box">
@@ -106,7 +106,7 @@
                 </div>
                 <div class="col-2 d-flex justify-content-sm-center">
                   <a href="#">
-                    <img class="post-pic" src="./images/camera.png"><p class="post-p">画像追加</p>
+                    <img id="mediaCapture" class="post-pic" src="./images/camera.png"><p class="post-p">画像追加</p>
                   </a>
                   <a href="#" id="submit">
                     <img class="post-send" src="./images/send.png"><p class="post-p">送信</p>
