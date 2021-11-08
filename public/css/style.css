@@ -17,8 +17,8 @@ body {
 }
 .contents {
   background-color: #BDA897;
-  padding: 30px 15px;
-  max-width: 1320px;
+  padding: 10px;
+  max-width: 1000px;
 }
 a{
   text-decoration: none;
@@ -58,6 +58,9 @@ a{
 }
 .col-2 {
   padding: 0;
+}
+.col-10.main-contents {
+  margin-top: 10px;
 }
 
 /*ヘッダー設定ここまで*/
@@ -384,16 +387,18 @@ input[type="radio"]:checked + label img {
 .col-8.left {
   background-color: white;
   border-radius: 20px;
+  padding: 10px;
 }
 .row.toppage-top {
-  margin-bottom: 5px;
+  margin: 7px 0;
   padding-bottom: 20px;
 }
 .col-8.left {
-  width: 65%;
+  width: 63%;
+  margin-left: 12px;
 }
 .col-4.right {
-  margin-left: 5px;
+  margin-left: 10px;
 }
 
 img.top_image_a,img.top_image_b,
