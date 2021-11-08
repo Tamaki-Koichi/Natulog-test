@@ -148,7 +148,7 @@ async function saveImageMessage(file) {
   // TODO 9: Posts a new image as a message.
   try {
     // 1 - We add a message with a loading icon that will get updated with the shared image.
-    const messageRef = await db.addDoc(collection(getFirestore(), 'messages'), {
+    const messageRef = await db.addDoc(collection(getFirestore(), 'team'), {
       name: getUserName(),
       imageUrl: LOADING_IMAGE_URL,
       profilePicUrl: getProfilePicUrl(),
@@ -224,7 +224,6 @@ function onMediaFileSelected(event) {
   }
 }
 
-
 // Triggered when the send new message form is submitted.
 function onMessageFormSubmit(e) {
   e.preventDefault();
@@ -259,32 +258,6 @@ function resetMaterialTextfield(element) {
   element.value = '';
 }
 
-async function saveMessagingDeviceToken() {
-  // TODO 10: Save the device token in Cloud Firestore
-  try {
-    const currentToken = await getToken(getMessaging());
-    if (currentToken) {
-      console.log('Got FCM device token:', currentToken);
-      // Saving the Device Token to Cloud Firestore.
-      const tokenRef = doc(getFirestore(), 'fcmTokens', currentToken);
-      await setDoc(tokenRef, { uid: getAuth().currentUser.uid });
-
-      // This will fire when a message is received while the app is in the foreground.
-      // When the app is in the background, firebase-messaging-sw.js will receive the message instead.
-      onMessage(getMessaging(), (message) => {
-        console.log(
-          'New foreground notification from Firebase Messaging!',
-          message.notification
-        );
-      });
-    } else {
-      // Need to request permissions to show notifications.
-      requestNotificationsPermissions();
-    }
-  } catch(error) {
-    console.error('Unable to get messaging token.', error);
-  };
-}
 // A loading image URL.
 var LOADING_IMAGE_URL = 'https://www.google.com/images/spin-32.gif?a';
 
@@ -329,6 +302,13 @@ function initApp() {
       docRef.get().then((doc) => {
           if (doc.exists) {
               userName = doc.data().name;
+              teamNum = doc.data().teamNumber;
+              avatorNum = doc.data().avatorNumber;
+              var teamPic = document.getElementById("teamPic");
+              teamPic.src = "./images/teampic/" + teamNum + ".jpg";
+              var avatorPic = document.getElementById("avatorPic");
+              avatorPic.src = "./images/avatorpic/" + avatorNum + ".png";
+              teamPic.src = "./images/teampic/" + teamNum + ".jpg";
           } else {
               // doc.data() will be undefined in this case
               console.log("No such document!");

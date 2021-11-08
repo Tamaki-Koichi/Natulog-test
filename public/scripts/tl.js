@@ -1,7 +1,7 @@
 'use strict';
 
 var db = firebase.firestore();
-var tlRef = db.collection("tl");
+var messagesRef = db.collection("tl");
 
 var addDoc;
 
@@ -32,7 +32,7 @@ async function saveMessage(messageText) {
 }
 
 function loadMessages() {
-  tlRef.orderBy("timestamp","desc").limit(5)
+  messagesRef.orderBy("timestamp","desc").limit(5)
   .onSnapshot((querySnapshot) => {
       querySnapshot.forEach((doc) => {
         // doc.data() is never undefined for query doc snapshots
@@ -53,6 +53,7 @@ function displayMessage(id, timestamp, name, text, picUrl, imageUrl) {
     div.querySelector('.pic').style.backgroundImage =
       'url(' + addSizeToGoogleProfilePic(picUrl) + ')';
   }
+  const myToDated = timestamp.toDate();
   div.querySelector('.date').textContent = dateFns.format(myToDated, "YY/MM/DD(ddd) hh:mm");
   
   const userName = name;
@@ -223,6 +224,18 @@ function onMediaFileSelected(event) {
   }
 }
 
+// Triggered when the send new message form is submitted.
+function onMessageFormSubmit(e) {
+  e.preventDefault();
+  // Check that the user entered a message and is signed in.
+  if (messageInputElement.value) {
+    saveMessage(messageInputElement.value).then(function () {
+      // Clear message text field and re-enable the SEND button.
+      resetMaterialTextfield(messageInputElement);
+    });
+  }
+}
+
 // Triggers when the auth state change for instance when the user signs-in or signs-out.
 function authStateObserver(user) {
   if (user) {
@@ -243,18 +256,6 @@ function authStateObserver(user) {
 // Resets the given MaterialTextField.
 function resetMaterialTextfield(element) {
   element.value = '';
-}
-
-// Triggered when the send new message form is submitted.
-function onMessageFormSubmit(e) {
-  e.preventDefault();
-  // Check that the user entered a message and is signed in.
-  if (messageInputElement.value) {
-    saveMessage(messageInputElement.value).then(function () {
-      // Clear message text field and re-enable the SEND button.
-      resetMaterialTextfield(messageInputElement);
-    });
-  }
 }
 
 // A loading image URL.

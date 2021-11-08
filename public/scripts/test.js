@@ -96,7 +96,7 @@ function displayMessage(id, timestamp, name, text, picUrl, imageUrl) {
   }
   
   const myToDated = timestamp.toDate();
-  div.querySelector('.date').textContent = dateFns.format(myToDated, "YY/MM/DD(ddd) hh:mm");
+  div.querySelector('.date').textContent = dateFns.format(myToDated, "MM/DD(ddd) hh:mm");
   
   const userName = name;
   div.querySelector('.name').textContent = userName;
