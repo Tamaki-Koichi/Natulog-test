@@ -174,11 +174,13 @@ img.posted-img {
 }
 .main-top-bg {
   border-radius: 20px;
+  height: auto;
+  max-width: 100%;
 }
-@media (max-width: 1400px) {
+@media (max-width: 2400px) {
   .main-top-bg {
       width: auto;
-      height: 300px;
+      height: 350px;
   }
   img {
       max-width: 100%;
@@ -335,7 +337,7 @@ textarea#floatingText {
 }
 /*ショップ画面設定ここまで*/
 
-/* ラジオボタンの○を消す */
+/* キャラ・チーム選択画面ここから */
 input[type="radio"] {
   display: none;
 }
@@ -366,6 +368,16 @@ input[type="radio"]:checked + label img {
   width: 100%; 
 }
 
+.select_chara_a,
+.select_chara_b,
+.select_chara_c,
+.select_chara_d
+.select_chara_e {
+  max-width: 100%;
+  height: auto;
+}
+/* キャラ・チーム選択画面ここから */
+
 /*トップページここから*/
 .row.toppage-top,
 .col-4.right,
@@ -375,6 +387,20 @@ input[type="radio"]:checked + label img {
 }
 .row.toppage-top {
   margin-bottom: 5px;
+  padding-bottom: 20px;
+}
+.col-8.left {
+  width: 65%;
+}
+.col-4.right {
+  margin-left: 5px;
+}
+
+img.top_image_a,img.top_image_b,
+img.top_image_c {
+  width: 100%;
+  height: auto;
+  max-width: 90%;
 }
 
 /* Transferred画面ここから */
@@ -384,9 +410,14 @@ input[type="radio"]:checked + label img {
 .trans-result {
   margin-bottom: 10px;
 }
-/* Transferred画面ここから */
+.trans-bg-img {
+  max-width: 750px;
+  padding: 0 20px;
+}
 
-/* トランスファースピナー画面 */
+/* Transferred画面ここまで */
+
+/* トランスファー スピナー画面 */
 .atom-spinner, .atom-spinner * {
   box-sizing: border-box;
 }
