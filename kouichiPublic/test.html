@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bootstrap Sample</title>
+    <!-- BootstrapのCSS読み込み -->
+    <link href="./css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Style.css読み込み -->
+    <link rel="stylesheet" href="./css/style.css">
+    <!-- jQuery読み込み -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <!-- BootstrapのJS読み込み -->
+    <script src="./js/bootstrap.min.js"></script>
+
+    <!-- firebaseの読み込み -->
+    <script src="https://www.gstatic.com/firebasejs/ui/5.0.0/firebase-ui-auth.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/5.0.0/firebase-ui-auth.css" />
+
+    <script src="https://www.gstatic.com/firebasejs/ui/5.0.0/firebase-ui-auth__ja.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/5.0.0/firebase-ui-auth.css" />
+
+
+    <script src="/__/firebase/9.1.1/firebase-app-compat.js"></script>
+    <script src="/__/firebase/9.1.1/firebase-auth-compat.js"></script>
+    <script src="/__/firebase/init.js"></script>
+    <script src="./scripts/test.js"></script>
+  </head>
+  <body>
+    <div class="container">
+      <div class="row justify-content-between align-items-center" id="header">
+        <div class="col-2">
+          <a href="javascript:history.back()" class="text-decoration-none"><img class="mx-auto d-block" id="return" src="./images/return.svg" style="width: 95px;"></a>
+        </div>
+        <div class="col-8">
+          <img class="mx-auto d-block" id="logo" src="./images/logo.png" style="width: 250px;">
+        </div>
+        <div class="col-2">
+          <!-- <a href="./setting.html" class="text-decoration-none"><img class="mx-auto d-block" id="setting" src="./images/setting.png" style="width: 70px;"></a> -->
+        </div>
+      <!-- </div> -->
+      <div class="contents">
+        <div class="main">
+          <div class="row justify-content-center">
+            <div class="container maxWidth">
+              <h1>サインアップ</h1>
+              <form action="#" method="get">
+                <!-- <div class="form-floating">
+                  <input type="name" class="form-control shadow-sm p-3 mb-3" id="floatingInput" placeholder="name">
+                  <label for="name">ユーザーネーム</label>
+                </div> -->
+                <div class="form-floating">
+                  <input type="email" class="form-control shadow-sm p-3 mb-3" id="email" placeholder="name@example.com">
+                  <label for="email">メールアドレス</label>            
+                </div>
+                <div class="form-floating">
+                  <input type="password" class="form-control shadow-sm p-3 mb-3" id="password" placeholder="Password">
+                  <label for="password">パスワード</label>            
+                </div>
+                <button type="button" class="btn btn-primary" id="quickstart-sign-up" onclick="handleSignUp()" name="signup">登録する</button>
+              </form>
+            </div>
+            <div id="footer">
+              <p>@natulog</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

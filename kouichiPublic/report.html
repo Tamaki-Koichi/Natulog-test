@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>通報</title>
+    <!-- BootstrapのCSS読み込み -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Style.css読み込み -->
+    <link rel="stylesheet" href="./css/style.css">
+  
+    <!-- jQuery読み込み -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <!-- BootstrapのJS読み込み -->
+    <script src="js/bootstrap.min.js"></script>
+  </head>
+  <body>
+    <div class="container">
+      <div class="row justify-content-between align-items-center" id="header">
+        <div class="col-2">
+          <a href="javascript:history.back()" class="text-decoration-none"><img class="mx-auto d-block" id="return" src="./images/return.svg" style="width: 95px;"></a>
+        </div>
+        <div class="col-8">
+          <img class="mx-auto d-block" id="logo" src="./images/logo.png" style="width: 250px;">
+        </div>
+        <div class="col-2">
+          <a href="./setting.html" class="text-decoration-none"><img class="mx-auto d-block" id="setting" src="./images/setting.png" style="width: 70px;"></a>
+        </div>
+      </div>
+      <div class="contents">
+        <div class="main">
+          <div class="row justify-content-center">
+            <div class="container maxWidth">
+              <h1>通報</h1>
+              <form action="#">
+                <div class="form-floating">
+                  <input type="name" class="form-control shadow-sm p-3 mb-3" id="floatingInput" placeholder="name">
+                  <label for="floatingInput">ID</label>
+                </div>
+                <div class="form-floating">
+                  <textarea class="form-control shadow-sm p-3 mb-3" id="floatingText" placeholder="Text"></textarea>
+                  <label for="floatingeText">通報内容</label>            
+                </div>
+                <button type="submit" class="btn shadow-sm">通報する</button>
+              </form>
+            </div>
+            <div id="footer">
+              <p>@natulog</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
