@@ -141,7 +141,7 @@ window.onload = function toprank() {
                         var soraPoint = doc.data().point;
                         console.log(soraPoint);
                         var rikuscore = document.getElementById("rikuscore");
-                        rikuscore.innerHTML = "ポイント：" + rikuPoint + "|" + rank(rikuPoint, [rikuPoint, umiPoint, soraPoint], 1) + "位";
+                        rikuscore.innerHTML = "ポイント：" + rikuPoint + "|" + rank(rikuPoint, [rikuPoint, umiPoint, soraPoint], 0) + "位";
                         //背景色変更if文 if(rank(rikuPoint, [rikuPoint, umiPoint, soraPoint], 1) == 1){色変える}
                     })
                 }
@@ -163,7 +163,7 @@ window.onload = function toprank() {
                         var soraPoint = doc.data().point;
                         console.log(soraPoint);
                         var umiscore = document.getElementById("umiscore");
-                        umiscore.innerHTML = "ポイント：" + umiPoint + "|" + rank(umiPoint, [rikuPoint, umiPoint, soraPoint], 1) + "位";
+                        umiscore.innerHTML = "ポイント：" + umiPoint + "|" + rank(umiPoint, [rikuPoint, umiPoint, soraPoint], 0) + "位";
                         //背景色変更if文 if(rank(umiPoint, [rikuPoint, umiPoint, soraPoint], 1) == 1){色変える}
                     })
                 }
@@ -185,7 +185,7 @@ window.onload = function toprank() {
                         var soraPoint = doc.data().point;
                         console.log(soraPoint);
                         var sorascore = document.getElementById("sorascore");
-                        sorascore.innerHTML = "ポイント：" + soraPoint + "|" + rank(soraPoint, [rikuPoint, umiPoint, soraPoint], 1) + "位";
+                        sorascore.innerHTML = "ポイント：" + soraPoint + "|" + rank(soraPoint, [rikuPoint, umiPoint, soraPoint], 0) + "位";
                         //背景色変更if文 if(rank(soraPoint, [rikuPoint, umiPoint, soraPoint], 1) == 1){色変える}
                     })
                 }
