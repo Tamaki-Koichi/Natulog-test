@@ -2,6 +2,7 @@
 
 var db = firebase.firestore();
 var messagesRef = db.collection("tl");
+var teamRef = db.collection("teamPoint");
 
 var addDoc;
 
@@ -47,6 +48,20 @@ async function saveMessage(messageText) {
             docRef.get().then((doc) => {
                 if (doc.exists) {
                     console.log(doc.data().creanPoint);
+                    var myTeamNumber = doc.data().teamNumber;
+                    if (myTeamNumber == 1) {
+                        teamRef.doc("1").update({
+                            point: firebase.firestore.FieldValue.increment(1)
+                        })
+                    } else if (myTeamNumber == 2) {
+                        teamRef.doc("2").update({
+                            point: firebase.firestore.FieldValue.increment(1)
+                        })
+                    } else if (myTeamNumber == 3) {
+                        teamRef.doc("3").update({
+                            point: firebase.firestore.FieldValue.increment(1)
+                        })
+                    }
                 } else {
                     // doc.data() will be undefined in this case
                     console.log("No such document!");
