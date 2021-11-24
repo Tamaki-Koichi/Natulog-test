@@ -1,71 +1,92 @@
 @charset "utf-8";
 
 /*レスポンシブ設定ここから*/
-.header,.contents,#main,#footer{
-  box-sizing: border-box;
-  width: 100%;
-  margin: 0 auto;
+
+.header,
+.contents,
+#main,
+#footer {
+    box-sizing: border-box;
+    width: 100%;
+    margin: 0 auto;
 }
+
 /*レスポンシブ設定ここまで*/
 
 /*基本設定ここから*/
 body {
-  background-color: #A3CCD6;
-  text-align: center;
-  font-size: 12px;
-  color: black;
+    background-color: #A3CCD6;
+    text-align: center;
+    font-size: 12px;
+    color: black;
 }
+
 .contents {
-  background-color: #BDA897;
-  padding: 10px;
-  max-width: 1320px;
+    background-color: #BDA897;
+    padding: 10px;
+    max-width: 1320px;
 }
-a{
-  text-decoration: none;
-  color: black;
+
+a {
+    text-decoration: none;
+    color: black;
 }
+
 .main,
 #main-top,
 #main-middle,
 .main-middle.shadow-sm.p-3,
 #main-bottom,
-.shop-main.shadow-sm.p-3{
-  background-color: #FFFEF4;
-  margin: 2px 6px;
-  border-radius: 20px
+.shop-main.shadow-sm.p-3 {
+    background-color: #FFFEF4;
+    margin: 2px 6px;
+    border-radius: 20px
 }
 
 .main h1 {
-  margin: 75px auto 30px auto;
+    margin: 75px auto 30px auto;
 }
+
 .main p {
-  margin-bottom: 9px;
+    margin-bottom: 9px;
 }
+
 #sub {
-  padding: 0 50px 20px 50px;
+    padding: 0 50px 20px 50px;
 }
+
 #footer {
-  margin-top: 20px;
+    margin-top: 20px;
 }
+
 .maxWidth {
-  max-width: 450px;
+    max-width: 450px;
 }
+
+
 /*基本設定ここまで*/
 
+
 /*ヘッダー設定ここから*/
+
 .header {
-  padding-top:50px;
+    padding-top: 50px;
 }
+
 .col-2 {
-  padding: 0;
+    padding: 0;
 }
+
 .col-10.main-contents {
-  margin-top: 10px;
+    margin-top: 10px;
 }
+
 
 /*ヘッダー設定ここまで*/
 
+
 /*ボタン設定*/
+
 button.btn.btn-primary,
 a.btn.btn-primary,
 button.btn.shadow-sm,
@@ -74,433 +95,543 @@ a.btn.shadow-sm,
 button.btn.btn-primary2,
 a.list-group-item.list-group-item-action.shadow-sm.p-2.mb-3,
 button.team-btn.btn.shadow-sm {
-  background-color: #BADEA2;
-  border-color: #BADEA2;
-  border-radius: 30px;
-  color: white;
-  font-size: 15px; 
+    background-color: #BADEA2;
+    border-color: #BADEA2;
+    border-radius: 30px;
+    color: white;
+    font-size: 15px;
 }
+
 button.btn.shadow-sm:hover,
 button.btn.shadow-sm-sm:hover,
 a.btn.shadow-sm:hover,
 a.list-group-item.list-group-item-action.shadow-sm.p-2.mb-3:hover,
 a.list-group-item.list-group-item-action.shadow-sm.p-2.mb-3:active {
-  background-color: #D6ADA3;
-  border-color: #D6ADA3;
-  color: white;
+    background-color: #D6ADA3;
+    border-color: #D6ADA3;
+    color: white;
 }
+
 button.btn.btn-primary,
 a.btn.btn-primary {
-  margin-bottom: 9px;
+    margin-bottom: 9px;
 }
+
 button.btn-shadow-sm-sm {
-  margin: 10px 10px;
+    margin: 10px 10px;
 }
+
 button.btn.shadow-sm,
 a.btn.shadow-sm {
-  padding: 10px 20px;
-  min-width: 130px; 
+    padding: 10px 20px;
+    min-width: 130px;
 }
+
 button#button-addon2 {
-  margin: 10px;
+    margin: 10px;
 }
+
 button.team-btn.btn.shadow-sm {
-  max-width: 200px;
-  margin-top: 25px;
+    max-width: 200px;
+    margin-top: 25px;
 }
+
 #contents-btn {
-  max-width: 150px;
+    max-width: 150px;
 }
+
 .list-group-item {
-      background-color: none;
-      border: 1px solid rgb(0 0 0 / 0%);
+    background-color: none;
+    border: 1px solid rgb(0 0 0 / 0%);
 }
 
 @media (max-width: 750px) {
-  button.btn.shadow-sm-sm {
-    font-size: 0.7rem;
-  }
+    button.btn.shadow-sm-sm {
+        font-size: 0.7rem;
+    }
 }
 /*ボタン設定ここまで*/
 
+
 /*画像サイズ設定ここから*/
-img#main-img  {
-  width: 255px;
-  height: 255px;
-  padding-bottom: 25px;
+img#main-img {
+    width: 255px;
+    height: 255px;
+    padding-bottom: 25px;
 }
+
 #return,
 #setting,
 #logo,
 #logout,
-#login{
-  width: 80%;
-  height: auto;
-  max-width: 60%;
-}
-#logo-left {
-  width: 100%;
-  height: auto;
-  max-width: 80%;
-  float: left;
-}
-img.profile-img {
-  width: 100px;
-  height: 100px;
-}
-img.blocked-img {
-  width: 65px;
-  height: 65px;
-}
-img.posted-img {
-  width: 55px;
-  height: 55px;
-}
-.wrap {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding-bottom: 20px;
-}
-.img-fluid {
-  max-width: 100%;
-  height: auto;
-  border-radius: 20px;
-}
-#correct,
-#logout
 #login {
-  margin: 0 auto;
-  width: 80%;
-  height: auto;
-  display: block;
+    width: 80%;
+    height: auto;
+    max-width: 60%;
 }
+
+#logo-left {
+    width: 100%;
+    height: auto;
+    max-width: 80%;
+    float: left;
+}
+
+img.profile-img {
+    width: 100px;
+    height: 100px;
+}
+
+img.blocked-img {
+    width: 65px;
+    height: 65px;
+}
+
+img.posted-img {
+    width: 55px;
+    height: 55px;
+}
+
+.wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-bottom: 20px;
+}
+
+.img-fluid {
+    max-width: 100%;
+    height: auto;
+    border-radius: 20px;
+}
+
+#correct,
+#logout #login {
+    margin: 0 auto;
+    width: 80%;
+    height: auto;
+    display: block;
+}
+
 .main-top-bg {
-  border-radius: 20px;
-  height: auto;
-  max-width: 100%;
+    border-radius: 20px;
+    height: auto;
+    max-width: 100%;
 }
+
 @media (max-width: 2400px) {
-  .main-top-bg {
-      width: auto;
-      height: 350px;
-  }
-  img {
-      max-width: 100%;
-  }
+    .main-top-bg {
+        width: auto;
+        height: 350px;
+    }
+    img {
+        max-width: 100%;
+    }
 }
+
 p.charactor {
-  position: absolute;
-  left: 50%;
-  top: 30%;
-  width: 30%;
-  transform: translate(-50%, -50%);
+    position: absolute;
+    left: 50%;
+    top: 30%;
+    width: 30%;
+    transform: translate(-50%, -50%);
 }
+
 img.main-top-img {
-  max-height: 150px;
+    max-height: 150px;
 }
-.top-gomi-left
-,.top-gomi-right{
-  position: absolute;
-  max-width: 100%;
-  height: 250px;
-  top: 20px;
+
+.top-gomi-left,
+.top-gomi-right {
+    position: absolute;
+    max-width: 100%;
+    height: 250px;
+    top: 20px;
 }
+
 @media screen and (max-width:2906px) {
-	.top-gomi-left{
-		left: calc(50 / 2906 * 100vw);
-	}
-  .top-gomi-right{
-		right: calc(50 / 2906 * 100vw);
-	}
+    .top-gomi-left {
+        left: calc(50 / 2906 * 100vw);
+    }
+    .top-gomi-right {
+        right: calc(50 / 2906 * 100vw);
+    }
 }
+
 .post-pic,
 .post-send {
-  max-width: 100%;
-  width: 50px;
+    max-width: 100%;
+    width: 50px;
 }
+
+
 /*画像設定ここまで*/
 
+
 /*ブロック管理ページ設定ここから*/
+
 .d-flex.justify-content-center {
-  margin-bottom: 20px;
+    margin-bottom: 20px;
 }
+
 .align-self-center {
-  padding-left: 10px;
+    padding-left: 10px;
 }
+
+
 /*ブロック管理ページ設定ここまで*/
 
-/*アカウント管理画面設定ここから*/
+
 /*アカウント管理画面設定ここから*/
 
+
+/*アカウント管理画面設定ここから*/
+
+
 /*マイルーム画面設定ここから*/
+
 div#main-top {
-  position: relative;
+    position: relative;
 }
+
 .box {
-  background:#BDA897;
-  border: 1px #BDA897 solid; 
-  padding:2px;
+    background: #BDA897;
+    border: 1px #BDA897 solid;
+    padding: 2px;
 }
+
 .col-5.align-self-start {
-  padding: 0;
+    padding: 0;
 }
+
 a.list-group-item.list-group-item-action.shadow-sm.p-2.mb-3 {
-  font-size: 1rem;
+    font-size: 1rem;
 }
+
 .flex-column {
-  padding-top: 10px;
+    padding-top: 10px;
 }
+
 #correct,
-#logout
-#login {
-  margin: 0 auto;
+#logout #login {
+    margin: 0 auto;
 }
+
 .header-p {
-  margin: 0;
+    margin: 0;
 }
+
 textarea.post.form-control {
-  background-color: #FFFEF4;
-  border: #FFFEF4;
+    background-color: #FFFEF4;
+    border: #FFFEF4;
 }
+
 textarea.post.form-control:focus {
-  outline: none;
+    outline: none;
 }
+
 input.post::placeholder {
-  text-align: center;
+    text-align: center;
 }
-.post-p{
-  font-size: 5px;
-  margin: 0;
+
+.post-p {
+    font-size: 5px;
+    margin: 0;
 }
+
 div#posted {
-  padding: 20px;
+    padding: 20px;
 }
+
 .col-3.align-self-start.left,
 .col-7.align-self-center {
-  padding: 0;
+    padding: 0;
 }
+
 
 /*マイルーム画面設定ここまで*/
 
+
 /*Other User Room画面ここから*/
+
 .col-4.align-self-start.left,
-.col-6{
-  padding: 0;
+.col-6 {
+    padding: 0;
 }
+
 .header-wrap {
-  float: left;
+    float: left;
 }
+
 .row.justify-content-between.border-bottom {
-  margin-bottom: 10px;
-  padding-bottom: 10px;
+    margin-bottom: 10px;
+    padding-bottom: 10px;
 }
+
+
 /*Other User Room画面ここまで*/
 
+
 /*input設定ここから*/
+
 input#floatingInput,
 input#floatingPassword,
 input#floatingemail,
 textarea#floatingText,
 .form-floating {
- border-radius: 30px;
+    border-radius: 30px;
 }
+
+
 /*input設定ここまで*/
 
+
 /* サインアップinput設定ここから*/
+
 .form-floating,
 .form-floating.mb-3 {
-  display: block;
+    display: block;
 }
+
+
 /* サインアップinput設定ここまで*/
 
+
 /* サインインinput設定ここから*/
-input#email, 
+
+input#email,
 input#password {
-  border-radius: 30px;
+    border-radius: 30px;
 }
+
+
 /* サインインinput設定ここまで*/
 
+
 /*通報画面input設定ここから*/
+
 textarea#floatingText {
-  height: 200px;
+    height: 200px;
 }
+
+
 /*通報画面input設定ここまで*/
 
+
 /*アカウント画面input設定ここから*/
-.input-group:not(.has-validation)>.dropdown-toggle:nth-last-child(n+3), 
-.input-group:not(.has-validation)>:not(:last-child):not(.dropdown-toggle):not(.dropdown-menu){
-  border-radius: 30px;
+
+.input-group:not(.has-validation)>.dropdown-toggle:nth-last-child(n+3),
+.input-group:not(.has-validation)>:not(:last-child):not(.dropdown-toggle):not(.dropdown-menu) {
+    border-radius: 30px;
 }
+
+
 /*アカウント画面input設定ここまで */
 
+
 /*ショップ画面設定ここから*/
+
 .title {
-  text-align: left;
+    text-align: left;
 }
+
+
 /*ショップ画面設定ここまで*/
 
+
 /* キャラ・チーム選択画面ここから */
+
 input[type="radio"] {
-  display: none;
+    display: none;
 }
+
 
 /* 画像の周りに隙間をあける */
+
 label img {
- margin: 3px;
- padding: 5px;
+    margin: 3px;
+    padding: 5px;
 }
 
+
 /* 未選択の場合、色を薄くする */
-input[type="radio"] + label img {
-  opacity:0.2;
+
+input[type="radio"]+label img {
+    opacity: 0.2;
 }
+
+
 /* 選択済みの場合、色を濃くする */
-input[type="radio"]:checked + label img {
-  opacity:1;
+
+input[type="radio"]:checked+label img {
+    opacity: 1;
 }
+
 .shop-main.shadow-sm.p-3 {
-  position: relative;
+    position: relative;
 }
-.shop-link{
-  display: block;
-  position: absolute;
-  top: 0;
-  left: 0;
-  height:100%; 
-  width: 100%; 
+
+.shop-link {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
 }
 
 .select_chara_a,
 .select_chara_b,
 .select_chara_c,
-.select_chara_d
-.select_chara_e {
-  max-width: 100%;
-  height: auto;
+.select_chara_d .select_chara_e {
+    max-width: 100%;
+    height: auto;
 }
+
+
 /* キャラ・チーム選択画面ここから */
 
+
 /*トップページここから*/
+
 .row.toppage-top,
 .col-4.right,
 .col-8.left {
-  background-color: white;
-  border-radius: 20px;
-  padding: 10px;
-}
-.row.toppage-top {
-  margin: 7px 0;
-  padding-bottom: 20px;
-}
-.col-8.left {
-  width: 63%;
-  margin-left: 12px;
-}
-.col-4.right {
-  margin-left: 10px;
+    background-color: white;
+    border-radius: 20px;
+    padding: 10px;
 }
 
-img.top_image_a,img.top_image_b,
-img.top_image_c {
-  width: 100%;
-  height: auto;
-  max-width: 90%;
+.row.toppage-top {
+    margin: 7px 0;
+    padding-bottom: 20px;
 }
+
+.col-8.left {
+    width: 63%;
+    margin-left: 12px;
+}
+
+.col-4.right {
+    margin-left: 10px;
+}
+
+img.top_image_a,
+img.top_image_b,
+img.top_image_c {
+    width: 100%;
+    height: auto;
+    max-width: 90%;
+}
+iframe {
+    height: 550px;
+    width: 100%;
+}
+
+/*トップページここまで*/
 
 /* Transferred画面ここから */
+
 .input-name {
-  margin-top: 10px;
+    margin-top: 10px;
 }
+
 .trans-result {
-  margin-bottom: 10px;
+    margin-bottom: 10px;
 }
+
 .trans-bg-img {
-  max-width: 750px;
-  padding: 0 20px;
+    max-width: 750px;
+    padding: 0 20px;
 }
+
 
 /* Transferred画面ここまで */
 
+
 /* トランスファー スピナー画面 */
-.atom-spinner, .atom-spinner * {
-  box-sizing: border-box;
+
+.atom-spinner,
+.atom-spinner * {
+    box-sizing: border-box;
 }
 
 .atom-spinner {
-  height: 60px;
-  width: 60px;
-  overflow: hidden;
+    height: 60px;
+    width: 60px;
+    overflow: hidden;
 }
 
 .atom-spinner .spinner-inner {
-  position: relative;
-  display: block;
-  height: 100%;
-  width: 100%;
+    position: relative;
+    display: block;
+    height: 100%;
+    width: 100%;
 }
 
 .atom-spinner .spinner-circle {
-  display: block;
-  position: absolute;
-  color: Coral;
-  font-size: calc(60px * 0.24);
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+    display: block;
+    position: absolute;
+    color: Coral;
+    font-size: calc(60px * 0.24);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 
 .atom-spinner .spinner-line {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  border-radius: 50%;
-  animation-duration: 1s;
-  border-left-width: calc(60px / 25);
-  border-top-width: calc(60px / 25);
-  border-left-color: Blue;
-  border-left-style: solid;
-  border-top-style: solid;
-  border-top-color: transparent;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    animation-duration: 1s;
+    border-left-width: calc(60px / 25);
+    border-top-width: calc(60px / 25);
+    border-left-color: Blue;
+    border-left-style: solid;
+    border-top-style: solid;
+    border-top-color: transparent;
 }
 
 .atom-spinner .spinner-line:nth-child(1) {
-  animation: atom-spinner-animation-1 1s linear infinite;
-  transform: rotateZ(120deg) rotateX(66deg) rotateZ(0deg);
+    animation: atom-spinner-animation-1 1s linear infinite;
+    transform: rotateZ(120deg) rotateX(66deg) rotateZ(0deg);
 }
 
 .atom-spinner .spinner-line:nth-child(2) {
-  animation: atom-spinner-animation-2 1s linear infinite;
-  transform: rotateZ(240deg) rotateX(66deg) rotateZ(0deg);
+    animation: atom-spinner-animation-2 1s linear infinite;
+    transform: rotateZ(240deg) rotateX(66deg) rotateZ(0deg);
 }
 
 .atom-spinner .spinner-line:nth-child(3) {
-  animation: atom-spinner-animation-3 1s linear infinite;
-  transform: rotateZ(360deg) rotateX(66deg) rotateZ(0deg);
+    animation: atom-spinner-animation-3 1s linear infinite;
+    transform: rotateZ(360deg) rotateX(66deg) rotateZ(0deg);
 }
 
 @keyframes atom-spinner-animation-1 {
-  100% {
-    transform: rotateZ(120deg) rotateX(66deg) rotateZ(360deg);
-  }
+    100% {
+        transform: rotateZ(120deg) rotateX(66deg) rotateZ(360deg);
+    }
 }
 
 @keyframes atom-spinner-animation-2 {
-  100% {
-    transform: rotateZ(240deg) rotateX(66deg) rotateZ(360deg);
-  }
+    100% {
+        transform: rotateZ(240deg) rotateX(66deg) rotateZ(360deg);
+    }
 }
 
 @keyframes atom-spinner-animation-3 {
-  100% {
-    transform: rotateZ(360deg) rotateX(66deg) rotateZ(360deg);
-  }
+    100% {
+        transform: rotateZ(360deg) rotateX(66deg) rotateZ(360deg);
+    }
 }
 
+
 /* transfer */
+
 .atom-spinner {
-  margin: 0 auto;
-  height: 200px;
-  width: 200px;
-  padding-top: 20px;
+    margin: 0 auto;
+    height: 200px;
+    width: 200px;
+    padding-top: 20px;
 }
