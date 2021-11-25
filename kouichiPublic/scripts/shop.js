@@ -71,3 +71,32 @@ window.onload = function dispPoint() {
         }
     })
 }
+
+var Point;
+
+async function changeAvator() {
+    var check = window.confirm("100P使用してアバターを変更しますか？");
+    if (check) {
+        firebase.auth().onAuthStateChanged(function(user) {
+            if (user) {
+                var uid = user.uid;
+                docRef.doc(uid).get().then((doc) => {
+                    Point = doc.data().creanPoint;
+                    console.log("ポイント読み込み" + Point);
+                    if (Point >= 100) {
+                        alert("100Pを消費しました");
+                        console.log(uid);
+                        console.log("ポイント引ける？？" + Point);
+                        docRef.doc(uid).update({
+                            creanPoint: firebase.firestore.FieldValue.increment(-100)
+                        });
+                        location.href = './selectCharactor.html'
+                    } else {
+                        alert("ポイントが不足しています。\n沢山投稿してポイントを貯めよう！");
+                    }
+                })
+            }
+        })
+
+    }
+}
