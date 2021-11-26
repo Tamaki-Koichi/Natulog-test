@@ -19,6 +19,42 @@ function logout() {
     });
 }
 
+
+// サインイン処理
+function toggleSignIn() {
+	console.log(firebase.auth());
+	console.log(firebase.auth().currentUser);
+	if (firebase.auth().currentUser) {
+		firebase.auth().signOut();
+	} else {
+		var email = document.getElementById('email').value;
+		var password = document.getElementById('password').value;
+		if (email.length < 4) {
+			alert('Please enter an email address.');
+			return;
+		}
+		if (password.length < 4) {
+			alert('Please enter a password.');
+			return;
+		}
+		// ログイン.
+		firebase.auth().signInWithEmailAndPassword(email, password).catch(function(error) {
+			// Handle Errors here.
+			var errorCode = error.code;
+			var errorMessage = error.message;
+			if (errorCode === 'auth/wrong-password') {
+				alert('Wrong password.');
+			} else {
+				alert(errorMessage);
+			}
+			console.log(error);
+			document.getElementById('quickstart-sign-in').disabled = false;
+		});
+	}
+	document.getElementById('quickstart-sign-in').disabled = true;
+}
+
+
 async function saveMessage(messageText) {
     firebase.auth().onAuthStateChanged(function(user) {
         if (user) {
@@ -334,6 +370,8 @@ var gomicount;
 var gomiNum;
 
 function initApp() {
+    //このコンソールは initAppを呼び出すために必須なので削除厳禁
+	console.log('initApp');
     // Listening for auth state changes.
     firebase.auth().onAuthStateChanged(function(user) {
         if (user) {

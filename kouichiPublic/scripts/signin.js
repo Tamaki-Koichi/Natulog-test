@@ -34,6 +34,8 @@ function handleSignUp() {
 
 // サインイン処理
 function toggleSignIn() {
+	console.log(firebase.auth());
+	console.log(firebase.auth().currentUser);
 	if (firebase.auth().currentUser) {
 		firebase.auth().signOut();
 	} else {
@@ -64,7 +66,6 @@ function toggleSignIn() {
 	document.getElementById('quickstart-sign-in').disabled = true;
 }
 
-
  /**
  * initApp handles setting up UI event listeners and registering Firebase auth listeners:
  *  - firebase.auth().onAuthStateChanged: This listener is called when the user is signed in or
@@ -72,9 +73,11 @@ function toggleSignIn() {
  */
 
 function initApp() {
+	//このコンソールは initAppを呼び出すために必須なので削除厳禁
+	console.log('initApp');
 	// Listening for auth state changes.
 	firebase.auth().onAuthStateChanged(function(user) {
-		document.getElementById('quickstart-verify-email').disabled = true;
+		// document.getElementById('quickstart-verify-email').disabled = true;
 		if (user) {
 			// User is signed in.
 			var displayName = user.displayName;
@@ -96,11 +99,10 @@ function initApp() {
 		}
 		document.getElementById('quickstart-sign-in').disabled = false;
 	});
-
 	document.getElementById('quickstart-sign-in').addEventListener('click', toggleSignIn, false);
 }
-
-window.addEventListener = function() {
+// window.addEventListener = function() {
+	window.onload = function() {
 	initApp();
 };
 
@@ -113,3 +115,7 @@ function tm(){
 function loc() {
 	window.location = "../transferred.html";
 }
+
+//ログアウト時のエラーについて
+// Firefox・Chromeゲストアカウントでサインイン可能。
+// ただし、Firefoxでログイン＞ログアウトすると、”ログアウト時にエラーが発生しました (ReferenceError: toggleSignIn is not defined)”のエラー表示あり。再度メアド・パスワード入力すると、入力した値が上手く送信されず、nullになってconsole log表示される。その後、もう一度入力して送信ボタン押すと画面がMyroomに切り替わる。
