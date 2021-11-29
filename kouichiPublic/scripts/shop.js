@@ -72,31 +72,113 @@ window.onload = function dispPoint() {
     })
 }
 
-var Point;
+function changeAvator() {
+    var Point;
 
-async function changeAvator() {
     var check = window.confirm("100P使用してアバターを変更しますか？");
     if (check) {
         firebase.auth().onAuthStateChanged(function(user) {
             if (user) {
                 var uid = user.uid;
-                docRef.doc(uid).get().then((doc) => {
-                    Point = doc.data().creanPoint;
-                    console.log("ポイント読み込み" + Point);
-                    if (Point >= 100) {
-                        alert("100Pを消費しました");
-                        console.log(uid);
-                        console.log("ポイント引ける？？" + Point);
-                        docRef.doc(uid).update({
-                            creanPoint: firebase.firestore.FieldValue.increment(-100)
-                        });
-                        location.href = './selectCharactor.html'
-                    } else {
-                        alert("ポイントが不足しています。\n沢山投稿してポイントを貯めよう！");
-                    }
-                })
-            }
-        })
+                var charDocRef = db.collection("Users").doc(uid);
 
+                db.runTransaction((transaction) => {
+                    return transaction.get(charDocRef).then((sfDoc) => {
+                        if (!sfDoc.exists) {
+                            throw "Document does not exist!";
+                        }
+                        Point = sfDoc.data().creanPoint;
+                        if (Point >= 100) {
+                            transaction.update(charDocRef, { creanPoint: firebase.firestore.FieldValue.increment(-100) });
+                            console.log("ポイント読み込み" + Point);
+                            alert("100Pを消費しました");
+                            return Point;
+                        } else {
+                            alert("ポイントが不足しています。\n沢山投稿してポイントを貯めよう！");
+                            location.href = './myroom.html';
+                        }
+                    });
+                }).then((Point) => {
+                    location.href = './selectCharactor.html';
+                }).catch((err) => {
+
+                });
+            };
+
+        });
+    }
+}
+
+function changeTeam() {
+    var Point;
+
+    var check = window.confirm("300P使用してチームを変更しますか？");
+    if (check) {
+        firebase.auth().onAuthStateChanged(function(user) {
+            if (user) {
+                var uid = user.uid;
+                var charDocRef = db.collection("Users").doc(uid);
+
+                db.runTransaction((transaction) => {
+                    return transaction.get(charDocRef).then((sfDoc) => {
+                        if (!sfDoc.exists) {
+                            throw "Document does not exist!";
+                        }
+                        Point = sfDoc.data().creanPoint;
+                        if (Point >= 100) {
+                            transaction.update(charDocRef, { creanPoint: firebase.firestore.FieldValue.increment(-300) });
+                            console.log("ポイント読み込み" + Point);
+                            alert("300Pを消費しました");
+                            return Point;
+                        } else {
+                            alert("ポイントが不足しています。\n沢山投稿してポイントを貯めよう！");
+                            location.href = './myroom.html';
+                        }
+                    });
+                }).then((Point) => {
+                    location.href = './selectTeam.html';
+                }).catch((err) => {
+
+                });
+            };
+
+        });
+    }
+}
+
+function buyTickets() {
+    var Point;
+
+    var check = window.confirm("10P使用してゴミ収集チケットを購入しますか？");
+    if (check) {
+        firebase.auth().onAuthStateChanged(function(user) {
+            if (user) {
+                var uid = user.uid;
+                var charDocRef = db.collection("Users").doc(uid);
+
+                db.runTransaction((transaction) => {
+                    return transaction.get(charDocRef).then((sfDoc) => {
+                        if (!sfDoc.exists) {
+                            throw "Document does not exist!";
+                        }
+                        Point = sfDoc.data().creanPoint;
+                        if (Point >= 100) {
+                            transaction.update(charDocRef, { creanPoint: firebase.firestore.FieldValue.increment(-10) });
+                            console.log("ポイント読み込み" + Point);
+                            alert("10Pを消費しました");
+                            return Point;
+                        } else {
+                            alert("ポイントが不足しています。\n沢山投稿してポイントを貯めよう！");
+                            location.href = './myroom.html';
+                        }
+                    });
+                }).then((Point) => {
+                    location.href = './buyTicket.html';
+                }).catch((err) => {
+
+                });
+            };
+
+        });
     }
 }
