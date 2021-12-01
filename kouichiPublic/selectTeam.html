@@ -52,40 +52,36 @@
         </div>
         <div class="contents">
             <div class="main">
-                <form class="row justify-content-center">
+                <form class="row justify-content-center" name="teams">
                     <h1>転生するチームを選択。</h1>
                     <div class="col-4">
                         <div class="header-wrap">
                             <p>陸</p>
-                            <a onclick="selectT1()">
-                                <input id="image_a" type="radio" value="image_a.jpg" name="image"></a>
+                            <input class="selectTeam" id="image_a" type="radio" value="image_a.jpg" name="team">
                             <label for="image_a">
-                  <img src="./images/陸.jpg">
-                </label>
+                                <img src="./images/陸.jpg">
+                            </label>
                         </div>
                     </div>
                     <div class="col-4">
                         <div class="header-wrap">
                             <p>海</p>
-                            <a onclick="selectT2()">
-                                <input id="image_b" type="radio" value="image_b.jpg" name="image"></a>
+                            <input class="selectTeam" id="image_b" type="radio" value="image_b.jpg" name="team">
                             <label for="image_b">
-                  <img src="./images/海.jpeg">
-                </label>
+                                <img src="./images/海.jpeg">
+                            </label>
                         </div>
                     </div>
                     <div class="col-4">
                         <div class="header-wrap">
                             <p>空</p>
-                            <a onclick="selectT3()">
-                                <input id="image_c" type="radio" value="image_c.jpg" name="image">
-                            </a>
+                            <input class="selectTeam" id="image_c" type="radio" value="image_c.jpg" name="team">
                             <label for="image_c">
-                  <img src="./images/sora.jpg">
-                </label>
+                                <img src="./images/sora.jpg">
+                            </label>
                         </div>
                     </div>
-
+                    <button type="button" class="team-btn btn shadow-sm" name="submit" onclick="selectWay()">チームを確定</button>
                     <div id="footer">
                         <p>@natulog</p>
                     </div>
