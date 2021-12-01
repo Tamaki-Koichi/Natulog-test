@@ -27,6 +27,13 @@ window.addEventListener = function() {
     initApp();
 };
 
+window.addEventListener('beforeunload', function(e) {
+    /** 更新される直前の処理 */
+    if (!this.alert('マイルームに戻ります')) {
+        this.location.href = './myroom.html';
+    };
+});
+
 function select() {
     var avatorNum;
     var teamNum = Math.floor(Math.random() * (4 - 1)) + 1;
@@ -39,7 +46,7 @@ function select() {
         avatorNum = Math.floor(Math.random() * (14 - 9)) + 9;
         console.log(avatorNum);
     } else {
-        avatorNum = Math.floor(Math.random() * (20 - 14)) + 14;
+        avatorNum = Math.floor(Math.random() * (19 - 14)) + 14;
         console.log(avatorNum);
     }
     //出来ればこの辺の名前とかもFireStoreに入れて呼び出せたら便利だなって思ってます！
@@ -99,16 +106,14 @@ function select() {
                     avatorName = 'フラミンゴ';
                     break;
                 case 16:
-                    avatorName = 'ハト';
-                    break;
-                case 17:
                     avatorName = 'クジャク';
                     break;
-                case 18:
+                case 17:
                     avatorName = 'インコ';
                     break;
-                case 19:
+                case 18:
                     avatorName = 'トンビ';
+                    break;
             }
     }
     firebase.auth().onAuthStateChanged((user) => {
@@ -116,10 +121,11 @@ function select() {
             var uid = user.uid;
             console.log(teamName);
             console.log(avatorName);
+            console.log(uid);
             console.log('uid取得完了');
             //ここまでは通ってるけどここから下が通ってない
-            var docRef = db.collection("Users").doc(uid);
-            docRef.set({
+            var docRef = db.collection("Users");
+            docRef.doc(uid).set({
                     //userId :uid,
                     teamNumber: teamNum,
                     team: teamName,
@@ -128,26 +134,20 @@ function select() {
                     signUpDay: firebase.firestore.FieldValue.serverTimestamp(),
                     lastLoginDay: firebase.firestore.FieldValue.serverTimestamp(),
                     gomicount: gomicount,
-                    creanPoint: "10"
+                    creanPoint: 10,
+                    creanTickets: 0
                 })
                 //ここまで
                 .then((docRef) => {
-                    //console.log("Document written with ID: ", docRef.id);
+                    docRef.doc(uid).get().then((doc) => {
+                        if (doc.exists) {
+                            console.log("setTrue");
+                        }
+                    })
                 })
                 .catch((error) => {
-                    //console.error("Error adding document: ", error);
+                    console.log("setFalse");
                 });
-            // const users = firebase.auth().currentUser;
-
-            // users.updateProfile({
-            //     photoURL: "./images/avatorpic/" + avatorNum + ".png"
-            // }).then(() => {
-            //     // Update successful
-            //     // ...
-            // }).catch((error) => {
-            //     // An error occurred
-            //     // ...
-            // });
         } else {
             console.log('uid取得失敗');
             //サインインできていないので登録画面に戻すようにしようかと

@@ -55,20 +55,27 @@ function initApp() {
 
 window.onload = function() {
     initApp();
-    firebase.auth().onAuthStateChanged(function(user) {
-        if (user) {
-            var uid = user.uid;
-            docRef.doc(uid).get().then((doc) => {
-                if (doc.exists) {
-                    var Point = doc.data().creanPoint;
-                    console.log(Point + "ポイント");
-                }
-            })
-        } else {
-            console.log("確認できません");
-        }
-    })
 };
+
+function selectAvator() {
+    var way = document.choiceAvator.image;
+    console.log(way);
+    for (var i = 0; i < way.length; i++) {
+        if (way[i].checked) {
+            if (i == 0) {
+                select1();
+            } else if (i == 1) {
+                select2();
+            } else if (i == 2) {
+                select3();
+            } else if (i == 3) {
+                select4();
+            } else if (i == 4) {
+                select5();
+            }
+        }
+    }
+}
 //画像出力
 window.onload = function dispPoint() {
         firebase.auth().onAuthStateChanged(function(user) {
@@ -110,18 +117,11 @@ window.onload = function dispPoint() {
                             avator4.src = "./images/avatorpic/17.png";
                             var avator5 = document.getElementById("avator5");
                             avator5.src = "./images/avatorpic/18.png";
-                            var avator6 = document.getElementById("avator6");
-                            avator6.src = "./images/avatorpic/19.png";
                         }
                     }
                 })
             }
         })
-        const check = false;
-        let form = document.forms[0];
-        let image = form.image;
-        console.log(image);
-
     }
     //キャラクター選択分岐
 function select1() {
@@ -134,17 +134,17 @@ function select1() {
                     if (myTeamNum == 1) {
                         var check = window.confirm("ビッグフットに転生しますか？");
                         if (check) {
-                            location.href = "./avatorTransfer/tr4.html";
+                            location.href = "./avatorTransfer/trC4.html";
                         }
                     } else if (myTeamNum == 2) {
                         var check = window.confirm("イルカに転生しますか？");
                         if (check) {
-                            location.href = "./avatorTransfer/tr9.html";
+                            location.href = "./avatorTransfer/trC9.html";
                         }
                     } else if (myTeamNum == 3) {
                         var check = window.confirm("ドラゴンに転生しますか？");
                         if (check) {
-                            location.href = "./avatorTransfer/tr14.html";
+                            location.href = "./avatorTransfer/trC14.html";
                         }
                     }
                 }
@@ -163,17 +163,17 @@ function select2() {
                     if (myTeamNum == 1) {
                         var check = window.confirm("ブタに転生しますか？");
                         if (check) {
-                            location.href = "./avatorTransfer/tr5.html";
+                            location.href = "./avatorTransfer/trC5.html";
                         }
                     } else if (myTeamNum == 2) {
                         var check = window.confirm("半魚人に転生しますか？");
                         if (check) {
-                            location.href = "./avatorTransfer/tr10.html";
+                            location.href = "./avatorTransfer/trC10.html";
                         }
                     } else if (myTeamNum == 3) {
                         var check = window.confirm("フラミンゴに転生しますか？");
                         if (check) {
-                            location.href = "./avatorTransfer/tr15.html";
+                            location.href = "./avatorTransfer/trC15.html";
                         }
                     }
                 }
@@ -192,17 +192,17 @@ function select3() {
                     if (myTeamNum == 1) {
                         var check = window.confirm("ネコに転生しますか？");
                         if (check) {
-                            location.href = "./avatorTransfer/tr6.html";
+                            location.href = "./avatorTransfer/trC6.html";
                         }
                     } else if (myTeamNum == 2) {
                         var check = window.confirm("カクレクマノミに転生しますか？");
                         if (check) {
-                            location.href = "./avatorTransfer/tr11.html";
+                            location.href = "./avatorTransfer/trC11.html";
                         }
                     } else if (myTeamNum == 3) {
-                        var check = window.confirm("ハトに転生しますか？");
+                        var check = window.confirm("クジャクに転生しますか？");
                         if (check) {
-                            location.href = "./avatorTransfer/tr16.html";
+                            location.href = "./avatorTransfer/trC16.html";
                         }
                     }
                 }
@@ -221,17 +221,17 @@ function select4() {
                     if (myTeamNum == 1) {
                         var check = window.confirm("イヌに転生しますか？");
                         if (check) {
-                            location.href = "./avatorTransfer/tr7.html";
+                            location.href = "./avatorTransfer/trC7.html";
                         }
                     } else if (myTeamNum == 2) {
                         var check = window.confirm("タツノオトシゴに転生しますか？");
                         if (check) {
-                            location.href = "./avatorTransfer/tr12.html";
+                            location.href = "./avatorTransfer/trC12.html";
                         }
                     } else if (myTeamNum == 3) {
-                        var check = window.confirm("クジャクに転生しますか？");
+                        var check = window.confirm("インコに転生しますか？");
                         if (check) {
-                            location.href = "./avatorTransfer/tr17.html";
+                            location.href = "./avatorTransfer/trC17.html";
                         }
                     }
                 }
@@ -250,36 +250,17 @@ function select5() {
                     if (myTeamNum == 1) {
                         var check = window.confirm("ライオンに転生しますか？");
                         if (check) {
-                            location.href = "./avatorTransfer/tr8.html";
+                            location.href = "./avatorTransfer/trC8.html";
                         }
                     } else if (myTeamNum == 2) {
                         var check = window.confirm("タコに転生しますか？");
                         if (check) {
-                            location.href = "./avatorTransfer/tr13.html";
+                            location.href = "./avatorTransfer/trC13.html";
                         }
                     } else if (myTeamNum == 3) {
-                        var check = window.confirm("インコに転生しますか？");
-                        if (check) {
-                            location.href = "./avatorTransfer/tr18.html";
-                        }
-                    }
-                }
-            })
-        }
-    })
-}
-
-function select6() {
-    firebase.auth().onAuthStateChanged(function(user) {
-        if (user) {
-            var uid = user.uid;
-            docRef.doc(uid).get().then((doc) => {
-                if (doc.exists) {
-                    var myTeamNum = doc.data().teamNumber;
-                    if (myTeamNum == 3) {
                         var check = window.confirm("トンビに転生しますか？");
                         if (check) {
-                            location.href = "./avatorTransfer/tr19.html";
+                            location.href = "./avatorTransfer/trC18.html";
                         }
                     }
                 }

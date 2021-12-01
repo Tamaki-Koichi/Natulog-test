@@ -1,10 +1,7 @@
 'use strict';
 
 var db = firebase.firestore();
-var messagesRef = db.collection("messages");
-var teamRef = db.collection("teamPoint");
 var docRef = db.collection("Users");
-var addDoc;
 
 // ログアウト処理
 function logout() {
@@ -20,7 +17,6 @@ function logout() {
 }
 //ログインしているかどうかの処理なのかな？？
 function initApp() {
-
     // Listening for auth state changes.
     firebase.auth().onAuthStateChanged(function(user) {
         if (user) {
@@ -53,45 +49,47 @@ function initApp() {
 
     });
 }
-window.onload = function() {
+
+window.addEventListener = function() {
     initApp();
+
 };
 
 
-function selectWay() {
-    var way = document.teams.team;
-    console.log(way);
-    for (var i = 0; i < way.length; i++) {
-        if (way[i].checked) {
-            if (i == 0) {
-                selectT1();
-            } else if (i == 1) {
-                selectT2();
-            } else if (i == 2) {
-                selectT3();
-            }
+
+window.onload = function() {
+
+    firebase.auth().onAuthStateChanged((user) => {
+        if (user) {
+            console.log("タイミングずらし");
+            var uid = user.uid;
+            docRef.doc(uid).update({
+                creanTickets: firebase.firestore.FieldValue.increment(1)
+            });
         }
-    }
+    })
+    cancelIdleCallback(dispTickets());
 }
 
-//キャラクター選択分岐
-function selectT1() {
-    var check = window.confirm("陸の民に転生しますか？");
-    if (check) {
-        location.href = "./teamTransfer/trT1.html";
-    }
+async function dispTickets() {
+    firebase.auth().onAuthStateChanged((user) => {
+        if (user) {
+            var uid = user.uid;
+            docRef.doc(uid).get().then((doc) => {
+                if (doc.exists) {
+                    var creanTickets = doc.data().creanTickets;
+                    var hwihv = document.getElementById("hwihv");
+                    hwihv.innerHTML = `チケット所持数 ${creanTickets}枚`;
+                }
+            })
+        }
+    })
 }
 
-function selectT2() {
-    var check = window.confirm("海の民に転生しますか？");
-    if (check) {
-        location.href = "./teamTransfer/trT2.html";
-    }
+function goBackRoom() {
+    location.href = './myroom.html';
 }
 
-function selectT3() {
-    var check = window.confirm("空の民に転生しますか？");
-    if (check) {
-        location.href = "./teamTransfer/trT3.html";
-    }
+function useTicket() {
+    location.href = './usingTicket.html';
 }

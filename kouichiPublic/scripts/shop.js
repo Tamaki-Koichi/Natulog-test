@@ -162,7 +162,7 @@ function buyTickets() {
                             throw "Document does not exist!";
                         }
                         Point = sfDoc.data().creanPoint;
-                        if (Point >= 100) {
+                        if (Point >= 10) {
                             transaction.update(charDocRef, { creanPoint: firebase.firestore.FieldValue.increment(-10) });
                             console.log("ポイント読み込み" + Point);
                             alert("10Pを消費しました");

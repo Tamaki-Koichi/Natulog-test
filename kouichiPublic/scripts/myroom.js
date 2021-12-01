@@ -19,42 +19,6 @@ function logout() {
     });
 }
 
-
-// サインイン処理
-function toggleSignIn() {
-	console.log(firebase.auth());
-	console.log(firebase.auth().currentUser);
-	if (firebase.auth().currentUser) {
-		firebase.auth().signOut();
-	} else {
-		var email = document.getElementById('email').value;
-		var password = document.getElementById('password').value;
-		if (email.length < 4) {
-			alert('Please enter an email address.');
-			return;
-		}
-		if (password.length < 4) {
-			alert('Please enter a password.');
-			return;
-		}
-		// ログイン.
-		firebase.auth().signInWithEmailAndPassword(email, password).catch(function(error) {
-			// Handle Errors here.
-			var errorCode = error.code;
-			var errorMessage = error.message;
-			if (errorCode === 'auth/wrong-password') {
-				alert('Wrong password.');
-			} else {
-				alert(errorMessage);
-			}
-			console.log(error);
-			document.getElementById('quickstart-sign-in').disabled = false;
-		});
-	}
-	document.getElementById('quickstart-sign-in').disabled = true;
-}
-
-
 async function saveMessage(messageText) {
     firebase.auth().onAuthStateChanged(function(user) {
         if (user) {
@@ -80,6 +44,7 @@ async function saveMessage(messageText) {
                 .catch((error) => {
                     //console.error("Error adding document: ", error);
                 });
+
             //ポイント加算確認
             docRef.get().then((doc) => {
                 if (doc.exists) {
@@ -370,8 +335,6 @@ var gomicount;
 var gomiNum;
 
 function initApp() {
-    //このコンソールは initAppを呼び出すために必須なので削除厳禁
-	console.log('initApp');
     // Listening for auth state changes.
     firebase.auth().onAuthStateChanged(function(user) {
         if (user) {
@@ -411,37 +374,13 @@ function initApp() {
 
 window.addEventListener = function() {
     initApp();
+
 };
 
 loadMessages();
 
-//ポイント・ゴミ系
-window.onload = function addPointAndDust() {
-        firebase.auth().onAuthStateChanged(function(user) {
-            if (user) {
-                // ユーザーサインイン処理
-                var uid = user.uid;
-                var docRef = db.collection("Users").doc(uid);
-                //最終ログイン時間、ゴミカウント表示機構
-                docRef.update({
-                        lastLoginDay: firebase.firestore.FieldValue.serverTimestamp(),
-                        gomicount: firebase.firestore.FieldValue.increment(1),
-                        creanPoint: firebase.firestore.FieldValue.increment(1)
-                    })
-                    .then((docRef) => {
-                        //console.log("Document written with ID: ", docRef.id);
-                    })
-                    .catch((error) => {
-                        //console.error("Error adding document: ", error);
-                    });
-            } else {
-                // User is signed out.
-                location.href = './index.html';
-                toggleSignIn();
-            };
-        });
-    }
-    //アバター表示
+
+//アバター表示
 window.onload = function userLoading() {
     firebase.auth().onAuthStateChanged(function(user) {
         if (user) {
@@ -475,6 +414,34 @@ window.onload = function userLoading() {
             }).catch((error) => {
                 console.log("Error getting document:", error);
             });
+        };
+    });
+
+}
+
+//ポイント・ゴミ系
+function addPointAndDust() {
+    firebase.auth().onAuthStateChanged(function(user) {
+        if (user) {
+            // ユーザーサインイン処理
+            var uid = user.uid;
+            var docRef = db.collection("Users").doc(uid);
+            //最終ログイン時間、ゴミカウント表示機構
+            docRef.update({
+                    lastLoginDay: firebase.firestore.FieldValue.serverTimestamp(),
+                    gomicount: firebase.firestore.FieldValue.increment(1),
+                    creanPoint: firebase.firestore.FieldValue.increment(1)
+                })
+                .then((docRef) => {
+                    //console.log("Document written with ID: ", docRef.id);
+                })
+                .catch((error) => {
+                    //console.error("Error adding document: ", error);
+                });
+        } else {
+            // User is signed out.
+            location.href = './index.html';
+            toggleSignIn();
         };
     });
 }
