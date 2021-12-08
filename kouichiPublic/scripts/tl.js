@@ -3,6 +3,7 @@
 var db = firebase.firestore();
 var messagesRef = db.collection("tl");
 var teamRef = db.collection("teamPoint");
+var userRef = db.collection("Users");
 
 var addDoc;
 
@@ -82,23 +83,37 @@ function loadMessages() {
         .onSnapshot((querySnapshot) => {
             querySnapshot.forEach((doc) => {
                 // doc.data() is never undefined for query doc snapshots
-                displayMessage(doc.id, doc.data().timestamp, doc.data().name, doc.data().text, '', '')
+                displayMessage(doc.id, doc.data().timestamp, doc.data().name, doc.data().text, '', '', doc.data().uid)
             });
         })
 }
 
-// Displays a Message in the UI.
-function displayMessage(id, timestamp, name, text, picUrl, imageUrl) {
+// 出力のフォーマットの大本決めているのここじゃね？？
+function displayMessage(id, timestamp, name, text, picUrl, imageUrl, uid) {
     var messageListElement = document.getElementById('messages');
 
     var div =
-        document.getElementById(id) || createAndInsertMessage(id, timestamp, name);
+        document.getElementById(id) || createAndInsertMessage(id, timestamp, name, uid);
     console.log(div);
-    // profile picture
-    if (picUrl) {
-        div.querySelector('.pic').style.backgroundImage =
-            'url(' + addSizeToGoogleProfilePic(picUrl) + ')';
+    const trigger = document.getElementById(id);
+    trigger.onclick = getOtherUser;
+
+    function getOtherUser() {
+        console.log("もしかしてお前さん、、、呼ばれてないのに動いているのかい？")
+        var OtherId = uid;
+        firebase.auth().onAuthStateChanged(function(user) {
+            if (user) {
+                var myuid = user.uid;
+                console.log("myId:" + myuid);
+                console.log("otherId:" + OtherId);
+                userRef.doc(myuid).update({
+                    view: OtherId
+                })
+            }
+        })
+        setTimeout(function() { location.href = "./otheruserroom.html" }, 1000);
     }
+
     const myToDated = timestamp.toDate();
     div.querySelector('.date').textContent = dateFns.format(myToDated, "YY/MM/DD(ddd) hh:mm");
 
@@ -129,6 +144,12 @@ function displayMessage(id, timestamp, name, text, picUrl, imageUrl) {
     }, 1);
     messageListElement.scrollTop = messageListElement.scrollHeight;
     messageInputElement.focus();
+    //ここに挿入出来たらアイコン挿入系は完了！
+
+
+    console.log(uid);
+
+
 }
 
 // Template for messages.
@@ -136,8 +157,9 @@ var MESSAGE_TEMPLATE =
 
     '<div class="row justify-content-between border-bottom">' +
     '<div class="col-5 d-flex justify-content-start">' +
+    '<div class = "trigger">' +
     '<img class="posted-img" src="./images/麻雀女子 3.png" alt="">' +
-    '<a href="#" class="align-self-start"><div class="name"></div></a>' +
+    '<a href="#" class="align-self-start"><div class="name"></div></a></div>' +
     '</div>' +
     '<div class="col-4 d-flex justify-content-end">' +
     '<div class="date"></div>' +
@@ -149,14 +171,43 @@ var MESSAGE_TEMPLATE =
     '</div>' +
     '</div>';
 
-function createAndInsertMessage(id, timestamp, name) {
+
+
+function createAndInsertMessage(id, timestamp, name, uid) {
     // 新しいDOMオブジェクトを生成
+    sha256(id + uid).then(hash => createPicBox(hash));
     const contents = document.createElement('div');
     contents.innerHTML = MESSAGE_TEMPLATE;
     var messageListElement = document.getElementById('messages');
     messageListElement.appendChild(contents);
     contents.setAttribute('id', id);
     contents.setAttribute('name', name);
+    var icon = document.getElementsByClassName('posted-img');
+    //var trg = document.getElementById("trigger");
+
+    //ここがユーザーアイコンの入れどころ
+
+    function createPicBox(subid) {
+        icon[0].setAttribute('id', subid); //すべての配列にめぐるように変える
+        userPicOut(subid);
+        console.log("ハッシュ化された投稿ID+UID＝＞" + subid);
+    }
+
+    function userPicOut(subid) {
+        userRef.doc(uid).get().then((doc) => {
+            if (doc.exists) {
+                var userPic = doc.data().avatorNumber;
+                console.log("ハッシュ化された投稿ID+UID＝＞" + subid + "\nアバターID＝＞" + userPic);
+                //ここの処理をストレージからの参照に変える
+                var iconPics = document.getElementById(subid);
+                iconPics.src = './images/iconpic/' + userPic + '.png';
+
+
+
+            }
+        })
+    }
+    //console.log(element.id);
 
     // If timestamp is null, assume we've gotten a brand new message.
     // https://stackoverflow.com/a/47781432/4816918
@@ -371,3 +422,10 @@ window.addEventListener = function() {
 };
 
 loadMessages();
+
+async function sha256(text) {
+    const uint8 = new TextEncoder().encode(text)
+    const digest = await crypto.subtle.digest('SHA-256', uint8)
+    return Array.from(new Uint8Array(digest)).map(v => v.toString(16).padStart(2, '0')).join('')
+        //return digest;
+}
