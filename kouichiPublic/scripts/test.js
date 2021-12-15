@@ -142,7 +142,10 @@ window.onload = function toprank() {
                         console.log(soraPoint);
                         var rikuscore = document.getElementById("rikuscore");
                         rikuscore.innerHTML = "ポイント：" + rikuPoint + "|" + rank(rikuPoint, [rikuPoint, umiPoint, soraPoint], 0) + "位";
-                        //背景色変更if文 if(rank(rikuPoint, [rikuPoint, umiPoint, soraPoint], 1) == 1){色変える}
+                        //背景色変更if文 
+                        if (rank(rikuPoint, [rikuPoint, umiPoint, soraPoint], 0) == 1) {
+                            document.getElementById('riku').style.backgroundColor = 'skyblue';
+                        }
                     })
                 }
             })
@@ -164,7 +167,10 @@ window.onload = function toprank() {
                         console.log(soraPoint);
                         var umiscore = document.getElementById("umiscore");
                         umiscore.innerHTML = "ポイント：" + umiPoint + "|" + rank(umiPoint, [rikuPoint, umiPoint, soraPoint], 0) + "位";
-                        //背景色変更if文 if(rank(umiPoint, [rikuPoint, umiPoint, soraPoint], 1) == 1){色変える}
+                        //背景色変更if文
+                        if (rank(umiPoint, [rikuPoint, umiPoint, soraPoint], 0) == 1) {
+                            document.getElementById('umi').style.backgroundColor = 'skyblue';
+                        }
                     })
                 }
             })
@@ -186,7 +192,10 @@ window.onload = function toprank() {
                         console.log(soraPoint);
                         var sorascore = document.getElementById("sorascore");
                         sorascore.innerHTML = "ポイント：" + soraPoint + "|" + rank(soraPoint, [rikuPoint, umiPoint, soraPoint], 0) + "位";
-                        //背景色変更if文 if(rank(soraPoint, [rikuPoint, umiPoint, soraPoint], 1) == 1){色変える}
+                        //背景色変更if文 
+                        if (rank(soraPoint, [rikuPoint, umiPoint, soraPoint], 0) == 1) {
+                            document.getElementById('sora').style.backgroundColor = 'skyblue';
+                        }
                     })
                 }
             })
@@ -212,4 +221,18 @@ function rank(value, arrs, updown) {
         }
     }
     return thisrank;
+}
+
+window.onload = function iconchange() {
+    firebase.auth().onAuthStateChanged(function(user) {
+        var login = document.getElementById("login");
+        var logstate = document.getElementById("logstate");
+        if (user) {
+            login.src = "./images/room.png";
+            logstate.innerHTML = "MyRoom";
+        } else {
+            login.src = "./images/login.png";
+            logstate.innerHTML = "ログイン";
+        }
+    })
 }
