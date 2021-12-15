@@ -20,31 +20,6 @@ function logout() {
     });
 }
 
-// function loadMessages() {
-//     firebase.auth().onAuthStateChanged(function(user) {
-//         if (user) {
-//             var uid = user.uid;
-//             userRef.doc(uid).get().then((doc) => {
-//                 viewUser = doc.data().view;
-//                 console.log("処理前読み込み確認" + viewUser);
-//                 putOtherUsers(viewUser);
-//             })
-
-//         }
-//     });
-
-// }
-
-// function putOtherUsers(viewUser) {
-//     db.collection('messages').where('uid', '==', viewUser).orderBy("timestamp", "desc").limit(5)
-//         .onSnapshot((querySnapshot) => {
-//             //console.log("処理後読み込み確認" + viewUser);
-//             querySnapshot.forEach((doc) => {
-//                 displayMessage(doc.id, doc.data().timestamp, doc.data().name, doc.data().text, '', '', doc.data().uid)
-//             });
-//         })
-// }
-
 function loadMessages() {
     firebase.auth().onAuthStateChanged(function(user) {
         if (user) {
@@ -59,7 +34,7 @@ function loadMessages() {
 }
 
 function putOtherUsers(userSerchRef, view) {
-    var viewRef = userSerchRef.collection('messages');
+    //var viewRef = userSerchRef.collection('messages');
     db.runTransaction((transaction) => {
         return transaction.get(userSerchRef).then((res) => {
             if (!res.exists) {
@@ -282,7 +257,7 @@ function initApp() {
 
 window.addEventListener = function() {
     initApp();
-
+    checkFollow();
 };
 
 loadMessages();
@@ -307,6 +282,8 @@ window.onload = function userLoading() {
                         gomiNum = doc.data().gomicount;
                         console.log(doc.data().gomicount);
                         console.log(gomiNum);
+                        var othername = document.getElementById("othername");
+                        othername.innerHTML = userName;
                         var teamPic = document.getElementById("teamPic");
                         teamPic.src = "./images/teampic/" + teamNum + ".jpg";
                         var avatorPic = document.getElementById("avatorPic");
@@ -357,4 +334,80 @@ function addPointAndDust() {
             toggleSignIn();
         };
     });
+}
+
+//フォローリスト追加・排除
+function FollowManager() {
+    var followJudge = document.getElementById("follow");
+    if (followJudge.textContent == "フォロー") {
+        //console.log("フォローしてないね");
+        firebase.auth().onAuthStateChanged(function(user) {
+            if (user) {
+                var uid = user.uid;
+                var followRef = db.collection("Users").doc(uid);
+                userRef.doc(uid).get().then((doc) => {
+                    if (doc.exists) {
+                        var followID = doc.data().view;
+                        console.log("viewのIDは" + followID);
+                        followRef.update({
+                            follow: firebase.firestore.FieldValue.arrayUnion(followID)
+                        })
+                    }
+                })
+            }
+        })
+    } else {
+        console.log("フォロー中だね");
+        firebase.auth().onAuthStateChanged(function(user) {
+            if (user) {
+                var uid = user.uid;
+                var followRef = db.collection("Users").doc(uid);
+                userRef.doc(uid).get().then((doc) => {
+                    if (doc.exists) {
+                        var followID = doc.data().view;
+                        console.log("viewのIDは" + followID);
+                        followRef.update({
+                            follow: firebase.firestore.FieldValue.arrayRemove(followID)
+                        })
+                        var fs = document.getElementById("follow");
+                        fs.innerHTML = "フォロー";
+
+                    }
+                })
+            }
+        })
+    }
+}
+//フォローボタン見た目
+async function checkFollow() {
+    firebase.auth().onAuthStateChanged(function(user) {
+        if (user) {
+            var uid = user.uid;
+            var followSerchRef = userRef.doc(uid);
+            userRef.doc(uid).get().then((doc) => {
+                var otherUserId = doc.data().view;
+                return serchFollow(followSerchRef, otherUserId);
+            })
+        }
+    })
+}
+
+function serchFollow(fsRef, checkId) {
+    fsRef.get().then((doc) => {
+        if (doc.exists) {
+            console.log("ここまで来てる");
+            db.collection('Users').where('follow', 'array-contains', checkId).onSnapshot((querySnapshot) => {
+                console.log("スナップショットには入れているのか");
+                querySnapshot.forEach((doc) => {
+                    //var followCheck = doc.data().follow;
+                    var fs = document.getElementById("follow");
+                    //console.log("get内に通っているのか" + followCheck);
+                    //console.log("フォロー済み処理到達済み" + followCheck);
+                    fs.innerHTML = "フォロー済み";
+                });
+            })
+        } else {
+            console.log(フォロー確認失敗);
+        }
+    })
 }

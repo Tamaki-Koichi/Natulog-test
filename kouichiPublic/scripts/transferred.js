@@ -171,6 +171,7 @@ function userNameUpdate() {
             var docRef = db.collection("Users").doc(uid);
             docRef.update({
                     name: userName,
+                    follow: firebase.firestore.FieldValue.arrayUnion(uid)
                 })
                 .then((docRef) => {
                     //console.log("Document written with ID: ", docRef.id);

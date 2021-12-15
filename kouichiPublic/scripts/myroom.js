@@ -3,6 +3,7 @@
 var db = firebase.firestore();
 var messagesRef = db.collection("messages");
 var teamRef = db.collection("teamPoint");
+var userRef = db.collection("Users");
 
 var addDoc;
 
@@ -79,23 +80,50 @@ async function saveMessage(messageText) {
 
 }
 
-function loadMessages() {
-    messagesRef.orderBy("timestamp", "desc").limit(5)
-        .onSnapshot((querySnapshot) => {
-            querySnapshot.forEach((doc) => {
-                // doc.data() is never undefined for query doc snapshots
-                displayMessage(doc.id, doc.data().timestamp, doc.data().name, doc.data().text, '', '')
-            });
-        })
+function loadMessages(uid) {
+    userRef.doc(uid).get().then((doc) => {
+        var followUser = doc.data().follow;
+        console.log(uid);
+        for (var i = 0; i <= followUser.length; i++) {
+            messagesRef.where("uid", "==", followUser[i]).orderBy("timestamp", "desc").onSnapshot((querySnapshot) => {
+                querySnapshot.forEach((doc) => {
+                    // doc.data() is never undefined for query doc snapshots
+                    displayMessage(doc.id, doc.data().timestamp, doc.data().name, doc.data().text, '', '', doc.data().uid)
+                    console.log("確認" + doc.id);
+                });
+            })
+        }
+
+    })
+
 }
 
+
 // Displays a Message in the UI.
-function displayMessage(id, timestamp, name, text, picUrl, imageUrl) {
+function displayMessage(id, timestamp, name, text, picUrl, imageUrl, uid) {
     var messageListElement = document.getElementById('messages');
 
     var div =
         document.getElementById(id) || createAndInsertMessage(id, timestamp, name);
     console.log(div);
+    const trigger = document.getElementById(id);
+    trigger.onclick = getOtherUser;
+
+    function getOtherUser() {
+        console.log("もしかしてお前さん、、、呼ばれてないのに動いているのかい？")
+        var OtherId = uid;
+        firebase.auth().onAuthStateChanged(function(user) {
+            if (user) {
+                var myuid = user.uid;
+                console.log("myId:" + myuid);
+                console.log("otherId:" + OtherId);
+                userRef.doc(myuid).update({
+                    view: OtherId
+                })
+            }
+        })
+        setTimeout(function() { location.href = "./otheruserroom.html" }, 1000);
+    }
     // profile picture
     if (picUrl) {
         div.querySelector('.pic').style.backgroundImage =
@@ -138,8 +166,8 @@ var MESSAGE_TEMPLATE =
 
     '<div class="row justify-content-between border-bottom">' +
     '<div class="col-5 d-flex justify-content-start">' +
-    '<img class="posted-img" src="./images/麻雀女子 3.png" alt="">' +
-    '<a href="#" class="align-self-start"><div class="name"></div></a>' +
+    '<div class = "trigger"><img class="posted-img" src="./images/麻雀女子 3.png" alt="">' +
+    '<a href="#" class="align-self-start"><div class="name"></div></a></div>' +
     '</div>' +
     '<div class="col-4 d-flex justify-content-end">' +
     '<div class="date"></div>' +
@@ -377,7 +405,7 @@ window.addEventListener = function() {
 
 };
 
-loadMessages();
+
 
 
 //アバター表示
@@ -386,6 +414,7 @@ window.onload = function userLoading() {
         if (user) {
             // ユーザーサインイン処理
             var uid = user.uid;
+            loadMessages(uid);
             //アバター・背景の表示機構
             var docRef = db.collection("Users").doc(uid);
             docRef.get().then((doc) => {
@@ -414,6 +443,7 @@ window.onload = function userLoading() {
             }).catch((error) => {
                 console.log("Error getting document:", error);
             });
+
         };
     });
 
@@ -434,6 +464,7 @@ function addPointAndDust() {
                 })
                 .then((docRef) => {
                     //console.log("Document written with ID: ", docRef.id);
+
                 })
                 .catch((error) => {
                     //console.error("Error adding document: ", error);
