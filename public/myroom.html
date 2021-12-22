@@ -105,7 +105,7 @@
                         <div class="container" id="posted">
                             <div class="row">
                                 <div class="col-5 d-flex justify-content-start left">
-                                    <img class="posted-img" src="./images/麻雀女子 3.png" alt="">
+                                    <img id="myicon"　class="posted-img" src="./images/麻雀女子 3.png" alt="">
                                     <a href="#" class="align-self-center" id="myname">アカウント名</a>
                                 </div>
                                 <div class="col-4">
@@ -125,22 +125,27 @@
                 <div class="box">
                     <div id="main-middle" class="shadow-sm p-3">
                         <form class="row justify-content-end" method="post" name="form1">
-                            <div class="col-10">
-                                <textarea id="message" class="post form-control" placeholder="投稿する"></textarea>
-                            </div>
+                          <div class="col-10">
+                            <textarea id="message" class="post form-control" placeholder="投稿する"></textarea>
+                          </div>
+                          <form id="image-form" action="#">
                             <div class="col-2 d-flex justify-content-sm-center">
-                                <a href="#">
-                                    <img id="mediaCapture" class="post-pic" src="./images/camera.png">
-                                    <p class="post-p">画像追加</p>
-                                </a>
-                                <a href="#" id="submit">
-                                    <img class="post-send" src="./images/send.png">
-                                    <p class="post-p">送信</p>
-                                </a>
+                              <label>
+                                <input id="mediaCapture" type="file" accept='image/*' onchange="onMediaFileSelected(this);" multiple='multiple' name='imgs[]' capture="camera" alt="送信する" class="test" style="display: none;">
+                                <img id="submitImage" class="post-pic" src="./images/camera.png"><p class="post-p">画像追加</p>
+                              </label>
+                              <label id="submit">
+                                <input id="submitImage" class="test" type="button" style="display: none;">
+                                <img class="post-send" src="./images/send.png"><p class="post-p">送信</p>
+                              </label>
                             </div>
+                            <div class="col">
+                             <img id="preview" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" style="max-width:200px;">
+                           </div>
+                          </form>
                         </form>
                     </div>
-                </div>
+                  </div>
                 <!-- 記事投稿画面ここまで -->
                 <!-- 投稿表示画面ここから -->
                 <div class="box">
