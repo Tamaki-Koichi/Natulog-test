@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>トップページ</title>
+
+    <!-- BootstrapのCSS読み込み -->
+    <link href="./css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Style.css読み込み -->
+    <link rel="stylesheet" href="./css/style.css">
+
+    <!-- jQuery読み込み -->
+    <script src='//ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js'></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/date-fns/1.30.1/date_fns.js"></script>
+
+    <!-- BootstrapのJS読み込み -->
+    <script src="./js/bootstrap.min.js"></script>
+
+    <!-- firebaseの読み込み -->
+    <script src="/__/firebase/9.1.1/firebase-app-compat.js"></script>
+    <script src="/__/firebase/9.1.1/firebase-auth-compat.js"></script>
+    <script src="/__/firebase/9.1.1/firebase-firestore-compat.js"></script>
+    <script src="/__/firebase/init.js"></script>
+
+    <!-- javascript処理 -->
+    <script src="./scripts/test.js"></script>
+
+    <!-- vue.js 開発バージョン -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+
+    <!-- date-fns読み込み -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/date-fns/1.30.1/date_fns.min.js" integrity="sha512-F+u8eWHrfY8Xw9BLzZ8rG/0wIvs0y+JyRJrXjp3VjtFPylAEEGwKbua5Ip/oiVhaTDaDs4eU2Xtsxjs/9ag2bQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+</head>
+
+<body>
+    <div class="container">
+        <!-- ヘッダーここから -->
+        <div class="header">
+            <div class="row justify-content-between">
+                <div class="col-3 align-self-center">
+                    <img class="" id="logo-left" src="./images/logo.png">
+                </div>
+                <div class="col-5 align-self-center">
+                    <form action="#" method="GET" class="form-horizontal">
+                        <div class="input-group">
+                            <input type="text" class="form-control" placeholder="Search" id="txtSearch" />
+                            <div class="input-group-btn align-self-center">
+                                <button class="btn shadow-sm-sm" type="submit">
+                      <span class="glyphicon glyphicon-search">検索</span>
+                    </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="col-3 align-self-center">
+                    <div class="d-flex justify-content-end">
+                        <div class="col">
+                            <div class="header-wrap">
+                                <a href="./signin.html"><img id="login" src="./images/login.png">
+                                    <p class="header-p" id="logstate">ログイン</p>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="header-wrap">
+                                <a href="./setting.html"><img class="" id="setting" src="./images/setting.png">
+                                    <p class="header-p">設定</p>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- ヘッダーここまで -->
+        <div class="contents">
+            <!-- ランキングここから -->
+            <div class="row toppage-top">
+                <h6 class="d-flex justify-content-start">今週のランキング</h6>
+                <div class="col-4">
+                    <div id="riku" class="header-wrap">
+                        <p>陸の民</p>
+                        <p id="rikuscore"></p>
+                        <img class="top_image_a" src="./images/陸.jpg">
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div id="umi" class="header-wrap">
+                        <p>海の民</p>
+                        <p id="umiscore"></p>
+                        <img class="top_image_b" src="./images/海.jpeg">
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div id="sora" class="header-wrap">
+                        <p>空の民</p>
+                        <p id="sorascore"></p>
+                        <img class="top_image_c" src="./images/sora.jpg">
+                    </div>
+                </div>
+            </div>
+            <!-- ランキングここまで -->
+            <div class="row toppage-bottom">
+                <!-- ニュースここから -->
+                <div class="col-8 left">
+                    <h6 class="d-flex justify-content-start">ニュース</h6>
+                    <!-- <img src="./images/news.png" alt=""> -->
+                    <iframe id="newsframe" allow="fullscreen" src="https://www3.nhk.or.jp/news/word/0000417.html"></iframe>
+                    <ul id="rss"></ul>
+                </div>
+                <!-- ニュースここまで -->
+                <!-- 新着ここから -->
+                <div class="col-4 right">
+                    <h6 class="d-flex justify-content-start">新着</h6>
+                    <div id="messages"></div>
+                </div>
+                <!-- 新着ここまで -->
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
