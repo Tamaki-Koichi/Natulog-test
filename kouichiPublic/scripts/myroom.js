@@ -1,11 +1,13 @@
 'use strict';
 
 var db = firebase.firestore();
+var storageRef = firebase.storage().ref();
 var messagesRef = db.collection("messages");
 var teamRef = db.collection("teamPoint");
 var userRef = db.collection("Users");
 
 var addDoc;
+var i = 0;
 
 // ログアウト処理
 function logout() {
@@ -77,35 +79,46 @@ async function saveMessage(messageText) {
             toggleSignIn();
         };
     });
-
 }
 
+// function loadMessages(uid) {
+//     userRef.doc(uid).get().then((doc) => {
+//         var followUser = doc.data().follow;
+//         console.log(uid);
+//         for (var i = 0; i < followUser.length; i++) {
+//             messagesRef.where("uid", "==", followUser[i]).orderBy("timestamp", "desc").onSnapshot((querySnapshot) => {
+//                 querySnapshot.forEach((doc) => {
+//                     displayMessage(doc.id, doc.data().timestamp, doc.data().name, doc.data().text, '',doc.data().imageUrl, doc.data().uid)
+//                     console.log("確認" + doc.data().imageUrl);
+//                 });
+//             })
+//         }
+//     })
+// }
 function loadMessages(uid) {
     userRef.doc(uid).get().then((doc) => {
         var followUser = doc.data().follow;
         console.log(uid);
-        for (var i = 0; i <= followUser.length; i++) {
-            messagesRef.where("uid", "==", followUser[i]).orderBy("timestamp", "desc").onSnapshot((querySnapshot) => {
+        for (var j = 0; j < followUser.length; j++) {
+            console.log(followUser[j]);
+            messagesRef.where("uid", "==", followUser[j]).orderBy("timestamp", "desc").onSnapshot((querySnapshot) => {
                 querySnapshot.forEach((doc) => {
-                    // doc.data() is never undefined for query doc snapshots
-                    displayMessage(doc.id, doc.data().timestamp, doc.data().name, doc.data().text, '', '', doc.data().uid)
+                    displayMessage(doc.id, doc.data().timestamp, doc.data().name, doc.data().text, '', doc.data().imageUrl, doc.data().uid)
                     console.log("確認" + doc.id);
                 });
             })
         }
-
     })
-
 }
 
 
 // Displays a Message in the UI.
 function displayMessage(id, timestamp, name, text, picUrl, imageUrl, uid) {
+    console.log
     var messageListElement = document.getElementById('messages');
 
     var div =
-        document.getElementById(id) || createAndInsertMessage(id, timestamp, name);
-    console.log(div);
+        document.getElementById(id) || createAndInsertMessage(id, timestamp, name,imageUrl, uid);
     const trigger = document.getElementById(id);
     trigger.onclick = getOtherUser;
 
@@ -142,31 +155,24 @@ function displayMessage(id, timestamp, name, text, picUrl, imageUrl, uid) {
         messageElement.textContent = text;
         // Replace all line breaks by <br>.
         messageElement.innerHTML = messageElement.innerHTML.replace(/\n/g, '<br>');
-
     } else if (imageUrl) {
-        // If the message is an image.
-        var image = document.createElement('img');
-        image.addEventListener('load', function() {
-            messageListElement.scrollTop = messageListElement.scrollHeight;
-        });
-        image.src = imageUrl + '&' + new Date().getTime();
-        messageElement.innerHTML = '';
-        messageElement.appendChild(image);
+        var imageElement = div.querySelector('.img');
     }
     // Show the card fading-in and scroll to view the new message.
     setTimeout(function() {
         div.classList.add('visible');
     }, 1);
     messageListElement.scrollTop = messageListElement.scrollHeight;
-    messageInputElement.focus();
+    // messageInputElement.focus();
 }
+
 
 // Template for messages.
 var MESSAGE_TEMPLATE =
 
     '<div class="row justify-content-between border-bottom">' +
     '<div class="col-5 d-flex justify-content-start">' +
-    '<div class = "trigger"><img class="posted-img" src="./images/麻雀女子 3.png" alt="">' +
+    '<div class = "trigger"><img id="icons" class="posted-img" src="./images/麻雀女子 3.png" alt="">' +
     '<a href="#" class="align-self-start"><div class="name"></div></a></div>' +
     '</div>' +
     '<div class="col-4 d-flex justify-content-end">' +
@@ -179,7 +185,7 @@ var MESSAGE_TEMPLATE =
     '</div>' +
     '</div>';
 
-function createAndInsertMessage(id, timestamp, name) {
+function createAndInsertMessage(id, timestamp, name, imageUrl,uid) {
     // 新しいDOMオブジェクトを生成
     const contents = document.createElement('div');
     contents.innerHTML = MESSAGE_TEMPLATE;
@@ -187,7 +193,39 @@ function createAndInsertMessage(id, timestamp, name) {
     messageListElement.appendChild(contents);
     contents.setAttribute('id', id);
     contents.setAttribute('name', name);
+    contents.setAttribute('img', imageUrl);
+    createPicBox(uid + id);
 
+    if(imageUrl !== undefined){
+        var image = document.createElement('img');
+        image.src = imageUrl;
+        // console.log(contents.querySelector('.holdImage'));
+        contents.querySelector('.holdImage').appendChild(image);
+        console.log(imageUrl);
+    }
+
+    //ここがユーザーアイコンの入れどころ
+
+    function createPicBox(subid) {
+        var icon = document.getElementById("icons");
+        //icon.setAttribute('id', subid); //すべての配列にめぐるように変える
+        icon.id = subid;
+        userPicOut(subid);
+        console.log("投稿ID+UID＝＞" + subid);
+        i++;
+    }
+
+    function userPicOut(subid) {
+        userRef.doc(uid).get().then((doc) => {
+            if (doc.exists) {
+                var userPic = doc.data().avatorNumber;
+                console.log("ハッシュ化された投稿ID+UID＝＞" + subid + "\nアバターID＝＞" + userPic);
+                //ここの処理をストレージからの参照に変える
+                var iconPics = document.getElementById(subid);
+                iconPics.src = './images/iconpic/' + userPic + '.png';
+            }
+        })
+    }
     // If timestamp is null, assume we've gotten a brand new message.
     // https://stackoverflow.com/a/47781432/4816918
     timestamp = timestamp ? timestamp.toMillis() : Date.now();
@@ -221,31 +259,70 @@ function createAndInsertMessage(id, timestamp, name) {
 // This first saves the image in Firebase storage.
 async function saveImageMessage(file) {
     // TODO 9: Posts a new image as a message.
-    try {
-        // 1 - We add a message with a loading icon that will get updated with the shared image.
-        const messageRef = await addDoc(collection(getFirestore(), 'messages'), {
-            name: getUserName(),
-            imageUrl: LOADING_IMAGE_URL,
-            profilePicUrl: getProfilePicUrl(),
-            timestamp: serverTimestamp()
-        });
+    firebase.auth().onAuthStateChanged(function(user) {
+        if (user) {
+             // 1 - We add a message with a loading icon that will get updated with the shared image.
+            var uid = user.uid;
+            // var document;
+            //ファイルのメタデータ
+            var metadata = {
+                contentType: file.type
+            };
 
-        // 2 - Upload the image to Cloud Storage.
-        const filePath = `${getAuth().currentUser.uid}/${messageRef.id}/${file.name}`;
-        const newImageRef = ref(getStorage(), filePath);
-        const fileSnapshot = await uploadBytesResumable(newImageRef, file);
-
-        // 3 - Generate a public URL for the file.
-        const publicImageUrl = await getDownloadURL(newImageRef);
-
-        // 4 - Update the chat message placeholder with the image's URL.
-        await updateDoc(messageRef, {
-            imageUrl: publicImageUrl,
-            storageUri: fileSnapshot.metadata.fullPath
-        });
-    } catch (error) {
-        console.error('There was an error uploading a file to Cloud Storage:', error);
-    }
+            // var fileSnapshot = null;
+            var publicImageUrl = null;
+            // console.log(subuid);
+            var messagesRef = db.collection("messages");
+            messagesRef.add({
+                name: userName,
+                imageUrl: LOADING_IMAGE_URL,
+                timestamp: firebase.firestore.Timestamp.fromDate(new Date()),
+                uid: uid
+            }).then((docRef) => {
+                // document = docRef.id;
+                console.log("Document written with ID: ", docRef.id);
+                // messagesRef = docRef;
+                storageRef.child('myroomImages/' + file.name).put(file, metadata)
+                .then(function(snapshot) {
+                    console.log('Uploaded', snapshot.totalBytes, 'bytes.');
+                    console.log('File metadata:', snapshot.metadata);
+    
+                    // 3 - Generate a public URL for the file.
+                    // const publicImageUrl = getDownloadURL(newImageRef);
+                    snapshot.ref.getDownloadURL().then(function(url) {
+                        publicImageUrl = url;     
+                        console.log('File available at', url);
+                        console.log(publicImageUrl);
+                    })
+                    .then(function(){
+                        console.log(db.collection("messages"));
+                        db.collection("messages").doc(docRef.id).update({
+                            imageUrl: publicImageUrl
+                        })
+                    })
+                    .then(function(){
+                        db.collection("messages").doc(docRef.id).set({
+                            storageUri: storageRef.child('myroomImages/' + file.name)
+                        })
+                        ,{merge: true}.then(() => {
+                            console.log("Document successfully updated!");
+                        })
+                    })
+                    .catch((error) => {
+                        // The document probably doesn't exist.
+                        console.log("Error updating document: ", error);
+                    })
+                .catch((error) => {
+                // The document probably doesn't exist.
+                console.log("Error updating document: ", error);
+                });
+                })
+                .catch(function(error) {
+                    // Handle any errors
+                });
+            })
+        }   
+    })
 }
 
 // Saves the messaging device token to Cloud Firestore.
@@ -276,13 +353,21 @@ async function saveMessagingDeviceToken() {
     };
 }
 
+var imageInputElement;
+
 // Triggered when a file is selected via the media picker.
 function onMediaFileSelected(event) {
-    event.preventDefault();
-    var file = event.target.files[0];
+    // event.preventDefault();
 
-    // Clear the selection in the file picker input.
-    imageFormElement.reset();
+    var fileReader = new FileReader();
+	fileReader.onload = (function() {
+		document.getElementById('preview').src = fileReader.result;
+	});
+	fileReader.readAsDataURL(event.files[0]);
+
+    var file = event.files[0];
+    imageInputElement = file;
+    console.log(imageInputElement);
 
     // Check if the file is an image.
     if (!file.type.match('image.*')) {
@@ -293,11 +378,8 @@ function onMediaFileSelected(event) {
         signInSnackbarElement.MaterialSnackbar.showSnackbar(data);
         return;
     }
-    // Check if the user is signed-in
-    if (checkSignedInWithMessage()) {
-        saveImageMessage(file);
-    }
 }
+
 
 // Triggers when the auth state change for instance when the user signs-in or signs-out.
 function authStateObserver(user) {
@@ -321,15 +403,38 @@ function resetMaterialTextfield(element) {
     element.value = '';
 }
 
+var imagepreviewElement = document.getElementById('preview');
 // Triggered when the send new message form is submitted.
 function onMessageFormSubmit(e) {
     e.preventDefault();
-    // Check that the user entered a message and is signed in.
-    if (messageInputElement.value) {
+    if(!messageInputElement.value && !imageInputElement) {
+        alert('コメントを入力するか、ファイルを選択してください。');
+    } else if (messageInputElement.value && imageInputElement){
+        saveImageAndMessage(messageInputElement.value, imageInputElement).then(function(){
+                // Clear image-preview field .
+                resetMaterialTextfield(messageInputElement);
+                imagepreviewElement.src = '';
+                imageInputElement.innerHTML = '';
+                console.log(imageInputElement);
+        }).then(function(){
+            //setTimeout(function(){location.href = './myroom.html';}, 5000);
+            //location.href = './myroom.html'
+        })
+    } else if(messageInputElement.value){
         saveMessage(messageInputElement.value).then(function() {
             // Clear message text field and re-enable the SEND button.
             resetMaterialTextfield(messageInputElement);
-        });
+        })
+    } else if(imageInputElement) {
+        saveImageMessage(imageInputElement).then(function(){
+            // Clear image-preview field .
+            imagepreviewElement.src = '';
+            imageInputElement.innerHTML = '';
+        }).then(function(){
+            setTimeout(function(){location.href = './myroom.html';}, 5000);
+            //location.href = './myroom.html'
+        })
+        console.log(imageInputElement);
     }
 }
 
@@ -352,7 +457,6 @@ var submitButtonElement = document.getElementById('submit');
 var imageButtonElement = document.getElementById('submitImage');
 var imageFormElement = document.getElementById('image-form');
 var mediaCaptureElement = document.getElementById('mediaCapture');
-var mediaCaptureElement;
 var userPicElement;
 var signInSnackbarElement;
 var teamNum;
@@ -425,6 +529,8 @@ window.onload = function userLoading() {
                     gomiNum = doc.data().gomicount;
                     console.log(doc.data().gomicount);
                     console.log(gomiNum);
+                    var myname = document.getElementById("myname");
+                    myname.innerHTML = userName;
                     var teamPic = document.getElementById("teamPic");
                     teamPic.src = "./images/teampic/" + teamNum + ".jpg";
                     var avatorPic = document.getElementById("avatorPic");
@@ -436,6 +542,8 @@ window.onload = function userLoading() {
                     console.log(gomiPicR);
                     gomiPicR.src = "./images/gomi/" + gomiNum + ".png";
                     lastLoginDay = doc.data().lastLoginDay;
+                    var myicon = document.getElementById("myicon");
+                    myicon.src = "./images/iconpic/"+avatorNum+".png";
                 } else {
                     // doc.data() will be undefined in this case
                     console.log("No such document!");
@@ -476,3 +584,5 @@ function addPointAndDust() {
         };
     });
 }
+
+mediaCaptureElement.addEventListener('change', onMediaFileSelected);
