@@ -20,6 +20,15 @@
     <!-- BootstrapのJS読み込み -->
     <script src="./js/bootstrap.min.js"></script>
 
+    <!-- firebaseの読み込み -->
+    <script src="/__/firebase/9.1.1/firebase-app-compat.js"></script>
+    <script src="/__/firebase/9.1.1/firebase-auth-compat.js"></script>
+    <script src="/__/firebase/9.1.1/firebase-firestore-compat.js"></script>
+    <script src="/__/firebase/init.js"></script>
+
+    <!-- javascript処理 -->
+    <script src="./scripts/followList.js"></script>
+
     <!-- vue.js 開発バージョン -->
     <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
 
@@ -89,58 +98,8 @@
             <!-- サイドバーここまで -->
             <!-- 記事投稿画面ここから -->
             <div class="col-10">
-                <div class="box">
-                    <div id="main-top">
-                        <img id="teamPic" class="main-top-bg" src="./" alt="">
-                        <p class="charactor" onclick="addPointAndDust()"><img id="avatorPic" class="main-top-img" src="./" alt=""></p>
-                        <img id="gomiPicL" class="top-gomi-left" src="./" alt="">
-                        <!-- ゴミの画像を挿入する -->
-                        <img id="gomiPicR" class="top-gomi-right" src="./" alt="">
-                        <!-- ゴミの画像を挿入する -->
-                    </div>
-                </div>
-                <!-- フォロー画面ここから -->
-                <div class="box">
-                    <div id="main-middle" class="shadow-sm p-3">
-                        <div class="container" id="posted">
-                            <div class="row">
-                                <div class="col-5 d-flex justify-content-start left">
-                                    <img class="posted-img" src="./images/麻雀女子 3.png" alt="">
-                                    <a href="#" class="align-self-center" id="myname">アカウント名</a>
-                                </div>
-                                <div class="col-4">
-                                </div>
-                                <div class="col-3 align-self-center">
-                                    <a href="followList.html">
-                                        <button class="btn shadow-sm-sm" type="submit">
-                                        <span id="follow"class="glyphicon glyphicon-search">フォローリスト</span>
-                                      </button>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- フォロー画面ここまで -->
-                <div class="box">
-                    <div id="main-middle" class="shadow-sm p-3">
-                        <form class="row justify-content-end" method="post" name="form1">
-                            <div class="col-10">
-                                <textarea id="message" class="post form-control" placeholder="投稿する"></textarea>
-                            </div>
-                            <div class="col-2 d-flex justify-content-sm-center">
-                                <a href="#">
-                                    <img id="mediaCapture" class="post-pic" src="./images/camera.png">
-                                    <p class="post-p">画像追加</p>
-                                </a>
-                                <a href="#" id="submit">
-                                    <img class="post-send" src="./images/send.png">
-                                    <p class="post-p">送信</p>
-                                </a>
-                            </div>
-                        </form>
-                    </div>
-                </div>
+
+
                 <!-- 記事投稿画面ここまで -->
                 <!-- 投稿表示画面ここから -->
                 <div class="box">
@@ -156,15 +115,6 @@
     </div>
     </div>
     </div>
-    <!-- firebaseの読み込み -->
-    <script src="/__/firebase/9.1.1/firebase-app-compat.js"></script>
-    <script src="/__/firebase/9.1.1/firebase-auth-compat.js"></script>
-    <script src="/__/firebase/9.1.1/firebase-firestore-compat.js"></script>
-    <script src="/__/firebase/9.1.1/firebase-storage-compat.js"></script>
-    <script src="/__/firebase/init.js"></script>
-
-    <!-- javascript処理 -->
-    <script src="./scripts/myroom.js"></script>
 </body>
 
 </html>

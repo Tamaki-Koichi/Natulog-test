@@ -24,9 +24,6 @@
     <script src="/__/firebase/9.1.1/firebase-auth-compat.js"></script>
     <script src="/__/firebase/9.1.1/firebase-firestore-compat.js"></script>
     <script src="/__/firebase/init.js"></script>
-
-    <!-- javascript処理 -->
-    <!-- <script src="./scripts/signin.js"></script> -->
   
     <!-- vue.js 開発バージョン -->
     <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
@@ -61,20 +58,15 @@
                   <input class="form-control shadow-sm p-3 mb-3" type="password" id="password" name="password" placeholder="Password"/>
                   <label for="password">Password</label>            
                 </div>
-                <button disabled class="btn btn-primary shadow-sm p-3 mb-3" id="quickstart-sign-in" name="signin">サインイン</button>
+                <button class="btn btn-primary shadow-sm p-3 mb-3" id="quickstart-sign-in" name="signin">サインイン</button>
               </form>
             </div>
             <div class="form-floating">
-              <p>or</p>
-              <p>未登録の方は</p>
-              <div class="col-auto">
-                <a class="btn btn-primary shadow-sm p-3 mb-3" href="./signup.html" role="button">サインアップ</a>
-              </div>
               <div id="footer">
                 <p>@natulog</p>
               </div>
             </div>
-          </div>
+          <!-- </div> -->
         </div>
       </div>
     </div>
@@ -88,14 +80,13 @@
           <div class="mdl-card__supporting-text mdl-color-text--grey-600">
             <div disabled id="quickstart-verify-email"></div>
             <!-- Container where we'll display the user details -->
-            <div class="quickstart-user-details-container">
               <pre><code id="quickstart-account-details"></code></pre>
             </div>
           </div>
         </div>
       </div>
     </main>
-        <!-- javascript処理 -->
-        <script src="./scripts/signin.js"></script>
+    <!-- javascript処理 -->
+    <script src="./scripts/setting.js"></script>
   </body>
 </html>

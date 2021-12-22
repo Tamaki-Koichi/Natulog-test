@@ -26,7 +26,7 @@
     <script src="/__/firebase/init.js"></script>
 
     <!-- javascript処理 -->
-    <!-- <script src="./scripts/signin.js"></script> -->
+    <script src="./scripts/setting.js"></script>
   
     <!-- vue.js 開発バージョン -->
     <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
@@ -57,7 +57,10 @@
             <div class="container maxWidth">
               <h1>アカウント設定</h1>
               <div class="wrap">
-                <img class="profile-img" src="./images/麻雀女子 3.png" alt="">
+                <input id="mediaCapture" type="file" accept='image/*' onchange="onMediaFileSelected(this);" multiple='multiple' name='imgs[]' capture="camera" alt="送信する" class="test" style="display: none;">
+                      <!-- <img id="submitImage" class="post-pic" src="./images/camera.png"> -->
+                      <img id="preview" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" style="max-width:200px;">
+                <!-- <img class="profile-img" src="./images/麻雀女子 3.png" alt=""> -->
                 <label>
                   <span class="btn btn-primary2">
                       画像を選択
@@ -66,21 +69,30 @@
                 </label>
               </div>
               <p class="d-flex align-items-start">ユーザーネーム変更</p>
-              <div class="input-group mb-3">
-                <input type="name" class="form-control" placeholder="ユーザーネーム入力" aria-label="#" aria-describedby="button-addon2">
-                <div class="input-group-append">
-                  <button class="btn shadow-sm-sm" type="button" id="button-addon2">変更</button>
+              <div id="show-name"></div>
+              <form class="input-name">
+                <div class="input-group mb-3">
+                  <input type="text" class="form-control" placeholder="ユーザーネーム入力" aria-label="#" aria-describedby="button-addon2" name="name">
+                  <div class="input-group-append">
+                    <button onclick="userNameUpdate()" class="btn shadow-sm-sm" type="button" id="button-addon2">変更</button>
+                  </div>
                 </div>
-              </div>
-              <div class="d-flex align-items-start">
-                <p>パスワード変更</p>
-              </div>
-              <div class="input-group">
+              </form>
+              <p class="d-flex align-items-start">パスワード変更</p>
+              <form class="input-name">
+                <div class="input-group mb-3">
+                  <input type="password" class="form-control" placeholder="パスワード入力" aria-label="#"  name="password">
+                  <div class="input-group-append">
+                    <button onclick="userPasswordUpdate()" class="btn shadow-sm-sm" type="button">変更</button>
+                  </div>
+                </div>
+              </form>
+              <!-- <div class="input-group">
                 <input type="password" class="form-control" placeholder="パスワード入力" aria-label="#" aria-describedby="button-addon2">
                 <div class="input-group-append">
                   <button class="btn shadow-sm-sm" type="button" id="button-addon2">変更</button>
                 </div>
-              </div>
+              </div> -->
             </div>
             <div class="form-floating">
               <div id="footer">
