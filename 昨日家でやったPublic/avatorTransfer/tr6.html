@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>ログイン</title>
+
+    <!-- BootstrapのCSS読み込み -->
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Style.css読み込み -->
+    <link rel="stylesheet" href="../css/style.css">
+
+    <!-- jQuery読み込み -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/date-fns/1.30.1/date_fns.js"></script>
+
+    <!-- BootstrapのJS読み込み -->
+    <script src="../js/bootstrap.min.js"></script>
+
+    <!-- firebaseの読み込み -->
+    <script src="/__/firebase/9.1.1/firebase-app-compat.js"></script>
+    <script src="/__/firebase/9.1.1/firebase-auth-compat.js"></script>
+    <script src="/__/firebase/9.1.1/firebase-firestore-compat.js"></script>
+    <script src="/__/firebase/init.js"></script>
+
+    <!-- javascript処理 -->
+    <script src="./scripts/tr6.js"></script>
+
+    <!-- vue.js 開発バージョン -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+
+    <!-- date-fns読み込み -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/date-fns/1.30.1/date_fns.min.js" integrity="sha512-F+u8eWHrfY8Xw9BLzZ8rG/0wIvs0y+JyRJrXjp3VjtFPylAEEGwKbua5Ip/oiVhaTDaDs4eU2Xtsxjs/9ag2bQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+</head>
+
+
+<body onLoad="select()">
+    <div class="container">
+        <div class="d-flex justify-content-between" id="header">
+            <div class="col-2">
+                <!-- <a href="javascript:history.back()" class="text-decoration-none"><img class="mx-auto d-block" id="return" src="./images/return.svg" style="width: 95px;"></a> -->
+            </div>
+            <div class="col-8">
+                <img class="mx-auto d-block" id="logo" src="./images/logo.png" style="width: 250px;">
+            </div>
+            <div class="col-2">
+                <!-- <a href="./setting.html" class="text-decoration-none"><img class="mx-auto d-block" id="setting" src="./images/setting.png" style="width: 70px;"></a> -->
+            </div>
+        </div>
+        <div class="contents">
+            <div class="main">
+                <div class="row justify-content-center">
+                    <div class="container trans-bg-img">
+                        <h1>転生が完了しました！</h1>
+                        <div id="transResult" class="trans-result">
+                            <h4></h4>
+                        </div>
+                        <div class="box">
+                            <div id="main-top">
+                                <img id="teamPic" class="main-top-bg" src="" alt="">
+                                <p class="charactor"><img id="avatorPic" class="main-top-img" src="" alt=""></p>
+                            </div>
+                        </div>
+
+                        <a onclick="userNameUpdate()" class="btn shadow-sm" href="../myroom.html" role="button">My Roomに移動する</a>
+                    </div>
+                    <div id="footer">
+                        <p>@natulog</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
