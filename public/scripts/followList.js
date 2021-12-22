@@ -1,177 +1,23 @@
 'use strict';
 
 var db = firebase.firestore();
-var storageRef = firebase.storage().ref();
 var messagesRef = db.collection("messages");
 var teamRef = db.collection("teamPoint");
 var userRef = db.collection("Users");
 
 var addDoc;
-var i = 0;
 
 // ログアウト処理
 function logout() {
     firebase.auth().onAuthStateChanged(function(user) {
         firebase.auth().signOut().then(() => {
-            location.href = './signin.html';
-            toggleSignIn();
-        })
-        .catch((error) => {
-            console.log(`ログアウト時にエラーが発生しました (${error})`);
-        });
+                location.href = './signin.html';
+                toggleSignIn();
+            })
+            .catch((error) => {
+                console.log(`ログアウト時にエラーが発生しました (${error})`);
+            });
     });
-}
-
-async function saveMessage(messageText) {
-    firebase.auth().onAuthStateChanged(function(user) {
-        if (user) {
-            // ユーザーサインイン処理
-            var uid = user.uid;
-            db.collection("messages").doc().set({
-                name: userName,
-                text: messageText,
-                timestamp: firebase.firestore.Timestamp.fromDate(new Date()),
-                uid: uid
-            })
-            .catch((error) => {
-                console.error("Error writing document: ", error);
-            });
-            var docRef = db.collection("Users").doc(uid);
-            //投稿時ポイント加算
-            docRef.update({
-                creanPoint: firebase.firestore.FieldValue.increment(1)
-            })
-            .then((docRef) => {
-                //console.log("Document written with ID: ", docRef.id);
-            })
-            .catch((error) => {
-                //console.error("Error adding document: ", error);
-            });
-
-            //ポイント加算確認
-            docRef.get().then((doc) => {
-                if (doc.exists) {
-                    console.log(doc.data().creanPoint);
-                    var myTeamNumber = doc.data().teamNumber;
-                    if (myTeamNumber == 1) {
-                        teamRef.doc("1").update({
-                            point: firebase.firestore.FieldValue.increment(1)
-                        })
-                    } else if (myTeamNumber == 2) {
-                        teamRef.doc("2").update({
-                            point: firebase.firestore.FieldValue.increment(1)
-                        })
-                    } else if (myTeamNumber == 3) {
-                        teamRef.doc("3").update({
-                            point: firebase.firestore.FieldValue.increment(1)
-                        })
-                    }
-                } else {
-                    // doc.data() will be undefined in this case
-                    console.log("No such document!");
-                }
-            }).catch((error) => {
-                console.log("Error getting document:", error);
-            });
-        } else {
-            // User is signed out.
-            location.href = './index.html';
-            toggleSignIn();
-        };
-    });
-}
-
-async function saveImageAndMessage(messageText, file) {
-    firebase.auth().onAuthStateChanged(function(user) {
-        if (user) {
-            // ユーザーサインイン処理
-            var uid = user.uid;
-            db.collection("messages").doc().set({
-                name: userName,
-                imageUrl: LOADING_IMAGE_URL,
-                timestamp: firebase.firestore.Timestamp.fromDate(new Date()),
-                text: messageText,
-                uid: uid,
-            })
-            .catch((error) => {
-                console.error("Error writing document: ", error);
-            });
-            var docRef = db.collection("Users").doc(uid);
-            //投稿時ポイント加算
-            docRef.update({
-                creanPoint: firebase.firestore.FieldValue.increment(1)
-            })
-            .then((docRef) => {
-                //console.log("Document written with ID: ", docRef.id);
-            })
-            .catch((error) => {
-                //console.error("Error adding document: ", error);
-            });
-            //ポイント加算確認
-            docRef.get().then((doc) => {
-                if (doc.exists) {
-                    console.log(doc.data().creanPoint);
-                    var myTeamNumber = doc.data().teamNumber;
-                    if (myTeamNumber == 1) {
-                        teamRef.doc("1").update({
-                            point: firebase.firestore.FieldValue.increment(1)
-                        })
-                    } else if (myTeamNumber == 2) {
-                        teamRef.doc("2").update({
-                            point: firebase.firestore.FieldValue.increment(1)
-                        })
-                    } else if (myTeamNumber == 3) {
-                        teamRef.doc("3").update({
-                            point: firebase.firestore.FieldValue.increment(1)
-                        })
-                    }
-                } else {
-                    // doc.data() will be undefined in this case
-                    console.log("No such document!");
-                }
-            }).catch((error) => {
-                console.log("Error getting document:", error);
-            });
-        } else {
-            // User is signed out.
-            location.href = './index.html';
-            toggleSignIn();
-        };
-        //ファイルのメタデータ
-        var metadata = {
-            contentType: file.type
-        };
-    
-    // var fileSnapshot = null;
-    var publicImageUrl = null;
-
-    storageRef.child('myroomImages/' + file.name).put(file, metadata)
-    .then(function(snapshot) {
-        console.log('Uploaded', snapshot.totalBytes, 'bytes.');
-        console.log('File metadata:', snapshot.metadata);
-
-        // 3 - Generate a public URL for the file.
-        // const publicImageUrl = getDownloadURL(newImageRef);
-        snapshot.ref.getDownloadURL().then(function(url) {
-            publicImageUrl = url;     
-            console.log('File available at', url);
-        })
-    })
-            db.collection("messages").set({
-            imageUrl: publicImageUrl,
-            // imageUrl: url,
-            storageUri: storageRef.child('myroomImages/' + file.name)
-        }),{merge: true}.then(() => {
-            console.log("Document successfully updated!");
-        }).catch((error) => {
-            // The document probably doesn't exist.
-            console.error("Error updating document: ", error);
-            // location.href = './uploadImg.html';
-        })
-    .catch(function(error) {
-        // Handle any errors
-    });
-})
 }
 
 
@@ -179,16 +25,18 @@ function loadMessages(uid) {
     userRef.doc(uid).get().then((doc) => {
         var followUser = doc.data().follow;
         console.log(uid);
-        for (var j = 0; j < followUser.length; j++) {
-            console.log(followUser[j]);
-            messagesRef.where("uid", "==", followUser[j]).orderBy("timestamp", "desc").onSnapshot((querySnapshot) => {
+        for (var i = 1; i <= followUser.length - 1; i++) {
+            messagesRef.where("uid", "==", followUser[i]).orderBy("timestamp", "desc").limit(1).onSnapshot((querySnapshot) => {
                 querySnapshot.forEach((doc) => {
-                    displayMessage(doc.id, doc.data().timestamp, doc.data().name, doc.data().text, '', doc.data().imageUrl, doc.data().uid)
+                    // doc.data() is never undefined for query doc snapshots
+                    displayMessage(doc.id, doc.data().timestamp, doc.data().name, doc.data().text, '', '', doc.data().uid)
                     console.log("確認" + doc.id);
                 });
             })
         }
+
     })
+
 }
 
 
@@ -197,7 +45,7 @@ function displayMessage(id, timestamp, name, text, picUrl, imageUrl, uid) {
     var messageListElement = document.getElementById('messages');
 
     var div =
-        document.getElementById(id) || createAndInsertMessage(id, timestamp, name, uid);
+        document.getElementById(id) || createAndInsertMessage(id, timestamp, name);
     console.log(div);
     const trigger = document.getElementById(id);
     trigger.onclick = getOtherUser;
@@ -223,7 +71,7 @@ function displayMessage(id, timestamp, name, text, picUrl, imageUrl, uid) {
             'url(' + addSizeToGoogleProfilePic(picUrl) + ')';
     }
     const myToDated = timestamp.toDate();
-    div.querySelector('.date').textContent = dateFns.format(myToDated, "YY/MM/DD(ddd) hh:mm");
+    //div.querySelector('.date').textContent = dateFns.format(myToDated, "YY/MM/DD(ddd) hh:mm");
 
     const userName = name;
     div.querySelector('.name').textContent = userName;
@@ -232,9 +80,9 @@ function displayMessage(id, timestamp, name, text, picUrl, imageUrl, uid) {
 
     if (text) {
         // If the message is text.
-        messageElement.textContent = text;
+        //messageElement.textContent = text;
         // Replace all line breaks by <br>.
-        messageElement.innerHTML = messageElement.innerHTML.replace(/\n/g, '<br>');
+        //messageElement.innerHTML = messageElement.innerHTML.replace(/\n/g, '<br>');
 
     } else if (imageUrl) {
         // If the message is an image.
@@ -251,7 +99,6 @@ function displayMessage(id, timestamp, name, text, picUrl, imageUrl, uid) {
         div.classList.add('visible');
     }, 1);
     messageListElement.scrollTop = messageListElement.scrollHeight;
-    messageInputElement.focus();
 }
 
 // Template for messages.
@@ -259,20 +106,18 @@ var MESSAGE_TEMPLATE =
 
     '<div class="row justify-content-between border-bottom">' +
     '<div class="col-5 d-flex justify-content-start">' +
-    '<div class = "trigger"><img id="icons" class="posted-img" src="./images/麻雀女子 3.png" alt="">' +
+    '<div class = "trigger"><img class="posted-img" src="./images/麻雀女子 3.png" alt="">' +
     '<a href="#" class="align-self-start"><div class="name"></div></a></div>' +
     '</div>' +
     '<div class="col-4 d-flex justify-content-end">' +
-    '<div class="date"></div>' +
     '</div>' +
     '<div class="row justify-content-center">' +
     '<div class="col-7 align-self-center">' +
-    '<div class="message"></div>' +
     '</div>' +
     '</div>' +
     '</div>';
 
-function createAndInsertMessage(id, timestamp, name, uid) {
+function createAndInsertMessage(id, timestamp, name) {
     // 新しいDOMオブジェクトを生成
     const contents = document.createElement('div');
     contents.innerHTML = MESSAGE_TEMPLATE;
@@ -280,34 +125,7 @@ function createAndInsertMessage(id, timestamp, name, uid) {
     messageListElement.appendChild(contents);
     contents.setAttribute('id', id);
     contents.setAttribute('name', name);
-    //var icon = document.getElementsByClassName('posted-img');
-    createPicBox(uid + id);
 
-    //ここがユーザーアイコンの入れどころ
-
-    function createPicBox(subid) {
-        var icon = document.getElementById("icons");
-        //icon.setAttribute('id', subid); //すべての配列にめぐるように変える
-        icon.id = subid;
-        userPicOut(subid);
-        console.log("投稿ID+UID＝＞" + subid);
-        i++;
-    }
-
-    function userPicOut(subid) {
-        userRef.doc(uid).get().then((doc) => {
-            if (doc.exists) {
-                var userPic = doc.data().avatorNumber;
-                console.log("ハッシュ化された投稿ID+UID＝＞" + subid + "\nアバターID＝＞" + userPic);
-                //ここの処理をストレージからの参照に変える
-                var iconPics = document.getElementById(subid);
-                iconPics.src = './images/iconpic/' + userPic + '.png';
-
-
-
-            }
-        })
-    }
     // If timestamp is null, assume we've gotten a brand new message.
     // https://stackoverflow.com/a/47781432/4816918
     timestamp = timestamp ? timestamp.toMillis() : Date.now();
@@ -517,7 +335,7 @@ function initApp() {
 
     messageInputElement = document.getElementById('message');
     messageFormElement = document.getElementById('submit');
-    messageFormElement.addEventListener('click', onMessageFormSubmit, false);
+    //messageFormElement.addEventListener('click', onMessageFormSubmit, false);
 }
 
 window.addEventListener = function() {
@@ -545,8 +363,6 @@ window.onload = function userLoading() {
                     gomiNum = doc.data().gomicount;
                     console.log(doc.data().gomicount);
                     console.log(gomiNum);
-                    var myname = document.getElementById("myname");
-                    myname.innerHTML = userName;
                     var teamPic = document.getElementById("teamPic");
                     teamPic.src = "./images/teampic/" + teamNum + ".jpg";
                     var avatorPic = document.getElementById("avatorPic");

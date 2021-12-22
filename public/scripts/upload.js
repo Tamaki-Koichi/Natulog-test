@@ -1,13 +1,13 @@
 'use strict';
 
 var db = firebase.firestore();
-var messagesRef = db.collection("tl");
 var storageRef = firebase.storage().ref();
+var messagesRef = db.collection("tl");
 var teamRef = db.collection("teamPoint");
 var userRef = db.collection("Users");
 
 var addDoc;
-// var i = 0;
+var i = 0;
 
 // ログアウト処理
 function logout() {
@@ -137,36 +137,36 @@ async function saveImageAndMessage(messageText, file) {
             toggleSignIn();
         };
         //ファイルのメタデータ
-        var metadata = {
-            contentType: file.type
-        };
-        
-        // var fileSnapshot = null;
-        var publicImageUrl = null;
+    var metadata = {
+        contentType: file.type
+    };
+    
+    // var fileSnapshot = null;
+    var publicImageUrl = null;
 
-        storageRef.child('images/' + file.name).put(file, metadata)
-        .then(function(snapshot) {
-            console.log('Uploaded', snapshot.totalBytes, 'bytes.');
-            console.log('File metadata:', snapshot.metadata);
+    storageRef.child('images/' + file.name).put(file, metadata)
+    .then(function(snapshot) {
+        console.log('Uploaded', snapshot.totalBytes, 'bytes.');
+        console.log('File metadata:', snapshot.metadata);
 
-            // 3 - Generate a public URL for the file.
-            // const publicImageUrl = getDownloadURL(newImageRef);
-            snapshot.ref.getDownloadURL().then(function(url) {
-                publicImageUrl = url;     
-                console.log('File available at', url);
-            })
+        // 3 - Generate a public URL for the file.
+        // const publicImageUrl = getDownloadURL(newImageRef);
+        snapshot.ref.getDownloadURL().then(function(url) {
+            publicImageUrl = url;     
+            console.log('File available at', url);
         })
-                db.collection("tl").set({
-                imageUrl: publicImageUrl,
-                // imageUrl: url,
-                storageUri: storageRef.child('images/' + file.name)
-            }),{merge: true}.then(() => {
-                console.log("Document successfully updated!");
-            }).catch((error) => {
-                // The document probably doesn't exist.
-                console.error("Error updating document: ", error);
-                // location.href = './uploadImg.html';
-            })
+    })
+            db.collection("tl").set({
+            imageUrl: publicImageUrl,
+            // imageUrl: url,
+            storageUri: storageRef.child('images/' + file.name)
+        }),{merge: true}.then(() => {
+        console.log("Document successfully updated!");
+        }).catch((error) => {
+        // The document probably doesn't exist.
+        console.error("Error updating document: ", error);
+    // location.href = './uploadImg.html';
+        })
         .catch(function(error) {
             // Handle any errors
         });
@@ -283,7 +283,7 @@ function createAndInsertMessage(id, timestamp, name, imageUrl, uid) {
         icon.id = subid;
         userPicOut(subid);
         // console.log("投稿ID+UID＝＞" + subid);
-        // i++;
+        i++;
     }
 
     function userPicOut(subid) {
@@ -467,12 +467,14 @@ function onMessageFormSubmit(e) {
                 imageInputElement.innerHTML = '';
                 console.log(imageInputElement);
         }).then(function(){
-            // setTimeout(function(){location.href = './uploadImg.html';}, 5000);
+            setTimeout(function(){location.href = './uploadImg.html';}, 5000);
         })
     } else if(messageInputElement.value){
         saveMessage(messageInputElement.value).then(function() {
             // Clear message text field and re-enable the SEND button.
             resetMaterialTextfield(messageInputElement);
+        }).then(function(){
+            setTimeout(function(){location.href = './uploadImg.html';}, 5000);
         })
     } else if(imageInputElement) {
         saveImageMessage(imageInputElement).then(function(){

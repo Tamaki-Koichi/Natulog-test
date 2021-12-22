@@ -27,6 +27,13 @@ window.addEventListener = function() {
     initApp();
 };
 
+window.addEventListener('beforeunload', function(e) {
+    /** 更新される直前の処理 */
+    if (!this.alert('マイルームに戻ります')) {
+        this.location.href = './myroom.html';
+    };
+});
+
 function select() {
     var avatorNum;
     var teamNum = Math.floor(Math.random() * (4 - 1)) + 1;
@@ -39,7 +46,7 @@ function select() {
         avatorNum = Math.floor(Math.random() * (14 - 9)) + 9;
         console.log(avatorNum);
     } else {
-        avatorNum = Math.floor(Math.random() * (20 - 14)) + 14;
+        avatorNum = Math.floor(Math.random() * (19 - 14)) + 14;
         console.log(avatorNum);
     }
     //出来ればこの辺の名前とかもFireStoreに入れて呼び出せたら便利だなって思ってます！
@@ -48,6 +55,7 @@ function select() {
     //チームとアバターの名前を呼び出している
     var teamName;
     var avatorName;
+    var gomicount = 0;
 
     switch (teamNum) {
         case 1:
@@ -98,74 +106,71 @@ function select() {
                     avatorName = 'フラミンゴ';
                     break;
                 case 16:
-                    avatorName = 'ハト';
-                    break;
-                case 17:
                     avatorName = 'クジャク';
                     break;
-                case 18:
+                case 17:
                     avatorName = 'インコ';
                     break;
-                case 19:
+                case 18:
                     avatorName = 'トンビ';
+                    break;
             }
     }
-    firebase.auth().onAuthStateChanged((user) => {
+    firebase.auth().onAuthStateChanged(function(user) {
         if (user) {
             var uid = user.uid;
             console.log(teamName);
             console.log(avatorName);
+            console.log(uid);
             console.log('uid取得完了');
             //ここまでは通ってるけどここから下が通ってない
-            var docRef = db.collection("Users").doc(uid);
-            docRef.set({
+            var docRef = db.collection("Users");
+            docRef.doc(uid).set({
                     //userId :uid,
                     teamNumber: teamNum,
                     team: teamName,
                     avatorNumber: avatorNum,
-                    avator: avatorName
+                    avator: avatorName,
+                    signUpDay: firebase.firestore.FieldValue.serverTimestamp(),
+                    lastLoginDay: firebase.firestore.FieldValue.serverTimestamp(),
+                    gomicount: gomicount,
+                    creanPoint: 10,
+                    creanTickets: 0,
+                    follow: firebase.firestore.FieldValue.arrayUnion(uid)
                 })
                 //ここまで
-                .then((docRef) => {
-                    console.log("Document written with ID: ", docRef.id);
-                })
-                .catch((error) => {
-                    console.error("Error adding document: ", error);
-                });
+
         } else {
             console.log('uid取得失敗');
             //サインインできていないので登録画面に戻すようにしようかと
         }
-    });
+    })
     var teamPic = document.getElementById("teamPic");
     teamPic.src = "./images/teampic/" + teamNum + ".jpg";
     var avatorPic = document.getElementById("avatorPic");
     avatorPic.src = "./images/avatorpic/" + avatorNum + ".png";
     var transResult = document.getElementById("transResult");
     transResult.innerHTML = `あなたは、${teamName}の${avatorName}に転生しました。`;
+
 }
 
 function userNameUpdate() {
     const userName = document.getElementsByName('name')[0].value; //ユーザー名をテキストボックスから取得
     console.log(userName);
-    firebase.auth().onAuthStateChanged((user) => {
+    firebase.auth().onAuthStateChanged(function(user) {
         if (user) {
             var uid = user.uid;
             var docRef = db.collection("Users").doc(uid);
             docRef.update({
-                    name: userName,
-                })
-                .then((docRef) => {
-                    //console.log("Document written with ID: ", docRef.id);
-                })
-                .catch((error) => {
-                    //console.error("Error adding document: ", error);
-                });
+                name: userName,
+                follow: firebase.firestore.FieldValue.arrayUnion(uid)
+            });
+            console.log("次のページに行こう");
+            window.location.href = "myroom.html";
         } else {
             console.log('uid取得失敗');
         }
-    });
-    window.Location = "myroom.html";
+    })
 }
 window.addEventListener = function() {
     initApp();

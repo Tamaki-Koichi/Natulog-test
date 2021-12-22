@@ -32,8 +32,25 @@ function handleSignUp() {
 	});
 }
 
+firebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION)
+  .then(() => {
+    // Existing and future Auth states are now persisted in the current
+    // session only. Closing the window would clear any existing state even
+    // if a user forgets to sign out.
+    // ...
+    // New sign-in will be persisted with session persistence.
+    return firebase.auth().signInWithEmailAndPassword(email, password);
+  })
+  .catch((error) => {
+    // Handle Errors here.
+    var errorCode = error.code;
+    var errorMessage = error.message;
+  });
+
 // サインイン処理
 function toggleSignIn() {
+	console.log(firebase.auth());
+	console.log(firebase.auth().currentUser);
 	if (firebase.auth().currentUser) {
 		firebase.auth().signOut();
 	} else {
@@ -48,7 +65,12 @@ function toggleSignIn() {
 			return;
 		}
 		// ログイン.
-		firebase.auth().signInWithEmailAndPassword(email, password).catch(function(error) {
+		firebase.auth().signInWithEmailAndPassword(email, password).
+		then((credential) => {
+			// Signed in
+			var user = credential.user;
+			// ...
+		}).catch(function(error) {
 			// Handle Errors here.
 			var errorCode = error.code;
 			var errorMessage = error.message;
@@ -62,8 +84,8 @@ function toggleSignIn() {
 		});
 	}
 	document.getElementById('quickstart-sign-in').disabled = true;
+	console.log('initApp');
 }
-
 
  /**
  * initApp handles setting up UI event listeners and registering Firebase auth listeners:
@@ -72,9 +94,11 @@ function toggleSignIn() {
  */
 
 function initApp() {
+	//このコンソールは initAppを呼び出すために必須なので削除厳禁
+	console.log('initApp');
 	// Listening for auth state changes.
 	firebase.auth().onAuthStateChanged(function(user) {
-		document.getElementById('quickstart-verify-email').disabled = true;
+		// document.getElementById('quickstart-verify-email').disabled = true;
 		if (user) {
 			// User is signed in.
 			var displayName = user.displayName;
@@ -96,11 +120,9 @@ function initApp() {
 		}
 		document.getElementById('quickstart-sign-in').disabled = false;
 	});
-
 	document.getElementById('quickstart-sign-in').addEventListener('click', toggleSignIn, false);
 }
-
-window.addEventListener = function() {
+	window.onload = function() {
 	initApp();
 };
 
@@ -113,3 +135,7 @@ function tm(){
 function loc() {
 	window.location = "../transferred.html";
 }
+
+//ログアウト時のエラーについて
+// Firefox・Chromeゲストアカウントでサインイン可能。
+// ただし、Firefoxでログイン＞ログアウトすると、”ログアウト時にエラーが発生しました (ReferenceError: toggleSignIn is not defined)”のエラー表示あり。再度メアド・パスワード入力すると、入力した値が上手く送信されず、nullになってconsole log表示される。その後、もう一度入力して送信ボタン押すと画面がMyroomに切り替わる。
